@@ -1,0 +1,29 @@
+<?xml version="1.0" standalone="yes"?>  
+<bannerslider>
+<records>
+	<record> 
+		<title1>sale off this week</title1>
+		<title2>Summer Collection</title2>
+		<click_url>#</click_url> 
+		<image><![CDATA[Plazathemes/bannerslider/images/b/a/banner7-11.jpg]]></image>
+		<image_alt><![CDATA[Plazathemes/bannerslider/images/b/a/banner7-11.jpg]]></image_alt>
+		<description>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu 
+		feugiat nulla facilisis at vero eros.</description>
+		<order>1</order>
+		<store_id>1</store_id> 
+		<status>1</status> 
+	</record>
+	<record> 
+		<title1>spring nivo-slice</title1>
+		<title2>opening ceremony 2017.</title2>
+		<click_url>#</click_url> 
+		<image><![CDATA[Plazathemes/bannerslider/images/b/a/banner7-12.jpg]]></image>
+		<image_alt><![CDATA[Plazathemes/bannerslider/images/b/a/banner7-12.jpg]]></image_alt>
+		<description>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu 
+		feugiat nulla facilisis at vero eros.</description>
+		<order>1</order>
+		<store_id>1</store_id> 
+		<status>1</status> 
+	</record>	
+</records>
+</bannerslider>
