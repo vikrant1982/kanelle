@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="default_head_blocks"/>
+	<head>
+		<!-- <title>Commercepundit Mega Menu</title> -->
+		<!--script src="jquery.js" /-->
+		<!-- <css src="Commercepundit_MegaMenu::css/font-awesome.css" /> -->
+		<css src="Commercepundit_MegaMenu::css/horizontal/black/megamenu.css" />
+		<css src="Commercepundit_MegaMenu::css/vertical/black/megamenu.css" />
+		<!--script src="Commercepundit_MegaMenu::js/commercepundit-megamenu.js" /-->
+	</head>
+	<body>
+		<!--<referenceBlock name="catalog.topnav" remove="true"/> -->
+		 <referenceContainer name="top.container">
+			<!-- <block class="Commercepundit\MegaMenu\Block\MegaMenu\View" name="megamenu.topnav" as="megamenu_topnav" template="Commercepundit_MegaMenu::megamenu.phtml" after="navigation.sections" before="banner_home_content_top"  /> -->
+		</referenceContainer>
+	</body>
+</page>

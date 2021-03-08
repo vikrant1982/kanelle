@@ -1,0 +1,136 @@
+<?php
+
+$prefix = \Commercepundit\MegaMenu\Model\Config\Source\Html::PREFIX;
+$status = \Commercepundit\MegaMenu\Model\Config\Source\Status::STATUS_ENABLED;
+$menuItems = $block->createMenuItems();
+$itemsStartLv = $block->getItems();
+$uq = uniqid($prefix.'menu');
+$nametable = $block->nameTable();
+$config = $block->getConfigObject();
+//echo "<pre>"; print_r($itemsStartLv); die;
+if($config['theme'] == \Commercepundit\MegaMenu\Model\Config\Source\ListTheme::HORIZONTAL){
+	$theme = 'horizontal';
+}
+if($config['theme'] == \Commercepundit\MegaMenu\Model\Config\Source\ListTheme::VERTICAL){
+	$theme = 'vertical';
+}
+$instance = rand().time();
+$id = ($block->getFrontController()->getRequest()->getParam('id')) ? $block->getFrontController()->getRequest()->getParam('id') : ($block->getFrontController()->getRequest()->getParam('page_id')?$block->getFrontController()->getRequest()->getParam('page_id'):'');
+
+?>
+<?php if(count($itemsStartLv)): ?>
+	<?php include_once dirname(__FILE__) . '/js/add_js_by_effect.phtml'; ?>
+	
+	<nav class="<?php echo $prefix; ?>wrapper_<?php echo $theme?>_menu sambar" id="<?php echo $uq; ?>" data-sam="<?php echo $instance; ?>">
+		<div class="sambar-inner">
+					<span class="btn-sambar" data-sapi="collapse" data-href="<?php echo '#'.$uq; ?>">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</span>
+			<ul class="<?php echo "commercepundit-megamenu-hover";?> <?php echo $prefix; ?>menu <?php echo $prefix; ?>menu_black" data-jsapi="on">
+				
+				<?php 	foreach($itemsStartLv as $itemStartLv){
+					$hasContent = !$block->isLeaf($itemStartLv) OR ($block->isLeaf($itemStartLv) AND $block->hasConntentType($itemStartLv));
+					$hasLinkType = $block->hasLinkType($itemStartLv);
+					$isAlignRight = $block->isAlignRight($itemStartLv);
+	?>
+					<?php
+					$_active = '';
+					if($hasLinkType){
+						$extenal_link = $block->getCurrentUrl();
+						if(strcasecmp($block->getLinkOfType($itemStartLv),$extenal_link) == 0){
+							$_active = 'commercepundit_megamenu_actived';
+						}
+					}
+					?>
+					<li class="<?php if($itemStartLv['custom_class']){ echo $itemStartLv['custom_class'].'-parent ';}?><?php if( $config['effect'] == 1 || $config['effect'] == 2 ){ echo 'other-toggle ';}?>
+							<?php echo $prefix; ?>lv1 <?php echo ($hasContent)?$prefix.'drop parent':$prefix.'nodrop'?>  <?php echo ($isAlignRight)?$prefix.'right':''?>  <?php echo $_active; ?>">
+						<a class="<?php echo $prefix; ?>head <?php echo ($hasContent)?$prefix.'drop':$prefix.'nodrop'?> <?php if($menuItems->getAllItemsByItemsIdEnabled($itemStartLv['items_id'], $itemStartLv['group_id'],$itemStartLv['status']) || ($itemStartLv['type'] == 7)){ echo $prefix."haschild"; } ?>" href="<?php echo ($hasLinkType)?$block->getLinkOfType($itemStartLv):'javascript:void(0)'?>" <?php echo ($hasLinkType)?$block->getTargetAttr($itemStartLv['target']):'' ?> id="<?php echo $prefix.$itemStartLv['items_id']; ?>">
+							<?php if($this->hasIcon($itemStartLv)) {	?>
+							<span class="icon_items"><img src='<?php echo $this->filterImage($itemStartLv); ?>' alt="icon items"></span>
+								<span class="<?php echo $prefix; ?>icon <?php if(!$itemStartLv['description']){echo $prefix.'nodesc';}?>">
+														<?php }else{	?>
+									<span class="<?php echo $prefix; ?>icon <?php if(!$itemStartLv['description']){echo $prefix.'nodesc';}?>">
+														<?php } ?>
+										<span class="<?php echo $prefix; ?>title"><?php echo $itemStartLv['title'] ?></span>
+										<?php if($itemStartLv['description']):?>
+											<span class="<?php echo $prefix; ?>description"><?php echo $itemStartLv['description'] ?>&nbsp;</span>
+										<?php endif?>
+									</span>
+						</a>
+						<?php $childItems = $menuItems->getAllItemsInEqLv($itemStartLv, 1 ,$itemStartLv['items_id']); ?>
+						<?php 	if($this->isLeaf($itemStartLv) OR !count($childItems)){ 	?>
+							<?php 	if($this->hasConntentType($itemStartLv)){	?>
+								<div class="<?php echo $prefix; ?>dropdown_<?php echo $itemStartLv['cols_nb'] ?><?php if($itemStartLv['cols_nb']>1){ ?>columns<?php }else{ ?>column<?php } ?> <?php echo ($isAlignRight)?$prefix.'align_right':''?> ">
+									<?php if($itemStartLv['show_title'] == $status){	?>
+										<div class="<?php echo $prefix; ?>title"><span><?php echo $itemStartLv['title'] ?></span></div>
+									<?php } ?>
+									<div class="<?php echo $prefix; ?>content"><?php echo $block->getContentType($itemStartLv) ?></div>
+								</div>
+							<?php 	}
+							continue;
+						}
+						if($itemStartLv['cols_nb']>1){
+							$divClassName = 'commercepundit-megamenu-child ' .$prefix.'dropdown_'.$itemStartLv['cols_nb'].'columns ';
+						}
+						else{
+							$divClassName = $prefix.'dropdown_'.$itemStartLv['cols_nb'].'column ';
+						}
+						if($isAlignRight){
+							$divClassName .= $prefix.'align_right';
+						}
+
+						if($itemStartLv['depth']+1 <= $config['end_level']){
+							if(count($childItems) > 0)
+							{
+								?>
+								<div class="<?php echo $divClassName?>">
+									<?php echo $block->getItemHtml($itemStartLv, true,7);	 ?>
+								</div>
+							<?php }
+						} ?>
+					</li>
+				<?php } ?>
+			</ul>
+		</div>
+	</nav>
+<?php else: ?>
+	<p class="note-msg"><?php echo 'There are no items matching the selection.'; ?></p>
+<?php endif; ?>
+
+<script type="text/javascript">
+	require(["jquery", "mage/template",'Commercepundit_MegaMenu/js/commercepundit-megamenu'], function() {
+		jQuery(document).ready(function ($) {
+			$('.commercepundit_megamenu_menu > li > .commercepundit-megamenu-child').parent().addClass('parent-item');
+			
+			var menu_width = $('.commercepundit_megamenu_wrapper_horizontal_menu').width();
+			$('.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu > li > div').each(function () {
+				$this = $(this);
+				var lv2w = $this.width();
+				var lv2ps = $this.position();
+				var lv2psl = $this.position().left;
+				var sw = lv2w + lv2psl;
+				if (sw > menu_width) {
+					$this.css({'right': '0'});
+				}
+			});
+			var _item_active = $('div.commercepundit_megamenu_actived');
+			if(_item_active.length){
+				_item_active.each(function(){
+					var _self = $(this), _parent_active =  _self.parents('.commercepundit_megamenu_title') ,_level1 = _self.parents('.commercepundit_megamenu_lv1');
+					if(_parent_active.length  ){
+						_parent_active.each(function(){
+							if(!$(this).hasClass('commercepundit_megamenu_actived'))
+								$(this).addClass('commercepundit_megamenu_actived');
+						});
+					}
+					
+					if(_level1.length && !_level1.hasClass('commercepundit_megamenu_actived')){
+						_level1.addClass('commercepundit_megamenu_actived');
+					}
+				});
+			}
+		});
+	});
+</script>

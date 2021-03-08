@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Commercepundit_MegaMenu::megamenu" title="Commercepundit Mega Menu" module="Commercepundit_MegaMenu" sortOrder="60" resource="Commercepundit_MegaMenu::megamenu"/>
+		<add id="Commercepundit_MegaMenu::megamenu_menugroup" title="Menu Manager" module="Commercepundit_MegaMenu" sortOrder="20" action="megamenu/menugroup" parent="Commercepundit_MegaMenu::megamenu" resource="Commercepundit_MegaMenu::megamenu_menugroup" />
+		<add id="Commercepundit_MegaMenu::megamenu_menuitems" title="Add New Menu" module="Commercepundit_MegaMenu" sortOrder="20" action="megamenu/menugroup/new" parent="Commercepundit_MegaMenu::megamenu" resource="Commercepundit_MegaMenu::megamenu_menuitems" />
+		<add id="Commercepundit_MegaMenu::configuration" title="Configuration" module="Commercepundit_MegaMenu" sortOrder="40" action="adminhtml/system_config/edit/section/megamenu" parent="Commercepundit_MegaMenu::megamenu" resource="Commercepundit_MegaMenu::configuration" />
+	</menu>
+</config>
