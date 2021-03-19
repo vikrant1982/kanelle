@@ -2,22 +2,19 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 <body>
 <referenceBlock name="product.info.details">
-	<referenceBlock name="tab.delivery.information">
-		<block class="Magento\Catalog\Block\Product\View" name="tab.delivery" template="Kanelle_Tab::delivery.phtml" group="detailed_info" >
+		<block class="Magento\Catalog\Block\Product\View" name="tab.delivery" template="Kanelle_Tab::delivery.phtml" group="detailed_info">
 			<arguments>
 				<argument translate="true" name="title" xsi:type="string">Delivery</argument>
-				<argument name="sort_order" xsi:type="string">3</argument>
+				<argument name="sort_order" xsi:type="string">10</argument>
 			</arguments>
 		</block>
-	</referenceBlock>
-	<referenceBlock name="tab.return.information">
-		<block class="Magento\Catalog\Block\Product\View" name="tab.return" template="Kanelle_Tab::return.phtml" group="detailed_info" >
+		<block class="Magento\Catalog\Block\Product\View" name="tab.return" template="Kanelle_Tab::return.phtml" group="detailed_info">
 			<arguments>
 				<argument translate="true" name="title" xsi:type="string">Return</argument>
-				<argument name="sort_order" xsi:type="string">4</argument>
+				<argument name="sort_order" xsi:type="string">20</argument>
 			</arguments>
 		</block>
-	</referenceBlock>
+	
 </referenceBlock>
 </body>
 </page>
