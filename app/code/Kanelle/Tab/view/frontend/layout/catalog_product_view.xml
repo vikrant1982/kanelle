@@ -5,16 +5,20 @@
 		<block class="Magento\Catalog\Block\Product\View" name="tab.delivery" template="Kanelle_Tab::delivery.phtml" group="detailed_info">
 			<arguments>
 				<argument translate="true" name="title" xsi:type="string">Delivery</argument>
-				<argument name="sort_order" xsi:type="string">10</argument>
+				<argument name="sort_order" xsi:type="string">40</argument>
 			</arguments>
 		</block>
 		<block class="Magento\Catalog\Block\Product\View" name="tab.return" template="Kanelle_Tab::return.phtml" group="detailed_info">
 			<arguments>
 				<argument translate="true" name="title" xsi:type="string">Return</argument>
-				<argument name="sort_order" xsi:type="string">20</argument>
+				<argument name="sort_order" xsi:type="string">50</argument>
 			</arguments>
 		</block>
 	
 </referenceBlock>
+
+<container name="product.info.social" label="Product social links container" htmlTag="div" htmlClass="product-social-links">
+	<block type="core/template"  name="custom_product_info" template="Kanelle_Tab::sizechart.phtml"/> 
+</container>
 </body>
 </page>
