@@ -3,13 +3,16 @@
 <body>
 <referenceBlock name="product.info.details">
 <block class="Magento\Catalog\Block\Product\View" name="tab.delivery" template="Kanelle_Tab::delivery.phtml" group="detailed_info" >
+	<arguments>
+		<argument translate="true" name="title" xsi:type="string">Delivery</argument>
+		<argument name="priority" xsi:type="string">3</argument>
+	</arguments>
+</block>
 <block class="Magento\Catalog\Block\Product\View" name="tab.treturn" template="Kanelle_Tab::return.phtml" group="detailed_info" >
-<arguments>
-<argument translate="true" name="title" xsi:type="string">Delivery</argument>
-<argument name="priority" xsi:type="string">3</argument>
-<argument translate="true" name="title" xsi:type="string">Return</argument>
-<argument name="priority" xsi:type="string">4</argument>
-</arguments>
+	<arguments>
+		<argument translate="true" name="title" xsi:type="string">Return</argument>
+		<argument name="priority" xsi:type="string">4</argument>
+	</arguments>
 </block>
 </referenceBlock>
 </body>
