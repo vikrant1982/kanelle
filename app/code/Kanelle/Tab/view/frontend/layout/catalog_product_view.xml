@@ -17,8 +17,8 @@
 	
 </referenceBlock>
 
-<container name="product.info.social" label="Product social links container" htmlTag="div" htmlClass="product-social-links">
-	<block type="core/template"  name="custom_product_info" template="Kanelle_Tab::sizechart.phtml"/> 
-</container>
+<referenceContainer name="product.info.social">
+	<block type="core/template"  name="custom_product_info" template="Kanelle_Tab::sizechart.phtml"/>
+</referenceContainer>
 </body>
 </page>

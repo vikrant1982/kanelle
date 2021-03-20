@@ -1,26 +1,84 @@
-<div class="callfor-popup">
-   <h2>Simple Modal</h2>
+<button type="button" class="action" data-trigger="trigger">
+    <span data-bind="i18n: 'Size Chart'"></span>
+</button>
+<div data-bind="mageInit: {
+        'Magento_Ui/js/modal/modal':{
+            'type': 'popup',
+            'title': 'Size Chart',
+            'trigger': '[data-trigger=trigger]',
+            'responsive': true,
+            'buttons': [{
+                text: 'Close',
+                class: 'action'
+            }]
+        }}">
+    <div class="content">
+<div class="table-data">
+        <h2><strong>TOP/DRESSES MEASUREMENTS</strong></h2>
+<p>*All measurements are in inches. Measurements of different styles vary with their shapes.</p>
+<table>
+<tbody>
+<tr>
+<td>SIZE</td>
+<td>SMALL</td>
+<td>MEDIUM</td>
+<td>LARGE</td>
+</tr>
+<tr>
+<td>BUST</td>
+<td>36”</td>
+<td>38”</td>
+<td>41”</td>
+</tr>
+<tr>
+<td>WAIST</td>
+<td>28”</td>
+<td>30”</td>
+<td>33”</td>
+</tr>
+<tr>
+<td>HIP</td>
+<td>38”</td>
+<td>40”</td>
+<td>43”</td>
+</tr>
+<tr>
+<td>SHOULDER</td>
+<td>14”</td>
+<td>14”</td>
+<td>16”</td>
+</tr>
+</tbody>
+</table>
+</br>
+<hr>
+<h2><strong>BOTTOM MEASURMENTS</strong></h2>
+<p>*All measurements are in inches.</p>
+<table>
+<tbody>
+<tr>
+<td>SIZE</td>
+<td>SMALL</td>
+<td>MEDIUM</td>
+<td>LARGE</td>
+</tr>
+<tr>
+<td>WAIST</td>
+<td>28”</td>
+<td>30”</td>
+<td>34”</td>
+</tr>
+<tr>
+<td>HIP</td>
+<td>36-38”</td>
+<td>38-40”</td>
+<td>42-44”</td>
+</tr>
+</tbody>
+</table>
 </div>
-<script>
-   require(
-       [
-           'jquery',
-           'Magento_Ui/js/modal/modal'
-       ],
-       function (
-           $,
-           modal
-       ) {
-           var modaloption = {
-               type: 'popup',
-               modalClass: 'modal-popup',
-               responsive: true,
-               innerScroll: true,
-               clickableOverlay: true,
-               title: 'Simple Modal'
-           };
-           var callforoption = modal(modaloption, $('.callfor-popup'));
-           $('.callfor-popup').modal('openModal');
-       }
-   );
-</script>
+<div class="size-image">
+<p><img src="<?php echo $this->getViewFileUrl(‘iwysiwyg/How-to-measure-image.jpg’); ?> alt=”Size chart” ></p>
+</div>
+    </div>
+</div>
