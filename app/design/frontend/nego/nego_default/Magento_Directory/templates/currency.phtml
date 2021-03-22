@@ -29,7 +29,7 @@
             <?php foreach ($currencies as $_code => $_name): ?>
                 <?php if ($_code != $currentCurrencyCode): ?>
                     <li class="currency-<?php /* @escapeNotVerified */ echo $_code ?> switcher-option">
-                        <a href="#" data-post='<?php /* @escapeNotVerified */ echo $block->getSwitchCurrencyPostData($_code); ?>'><?php /* @escapeNotVerified */ echo $_code ?><?php /* @escapeNotVerified */ //echo $_name ?></a>
+                        <a href="#" data-post='<?php /* @escapeNotVerified */ echo $block->getSwitchCurrencyPostData($_code); ?>'><?php /* @escapeNotVerified */ echo $_name ?><?php /* @escapeNotVerified */ //echo $_name ?></a>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>
