@@ -218,7 +218,7 @@ class Main extends Generic implements TabInterface
             'number_image_slider',
             'text',
             [
-                'class' => 'validate-number input-text validate-digits-range digits-range-1-20',
+                'class' => 'validate-number input-text validate-digits-range digits-range-1-200',
                 'name' => 'number_image_slider',
                 'label' => __('Number of image in slider'),
                 'title' => __('Number of image in slider'),
