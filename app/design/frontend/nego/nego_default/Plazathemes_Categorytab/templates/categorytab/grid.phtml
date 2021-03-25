@@ -32,7 +32,7 @@
 		<h3><?php echo '<span>'.$title.'</span>'; ?></h3>
 		<p class="des"><?php echo $des;?> </p>
 	</div>
-	<div class="title-tab">
+	<!--<div class="title-tab">
 		<ul class="tabs tabs<?php echo '-'.$identify;?>"> 
 		   <?php 
 			$k = 0;
@@ -45,7 +45,7 @@
 					<li class="<?php if($k==0){ echo "active"; }?>" rel="tab<?php echo $cate_id.'-'.$identify;?>"><?php  echo $cateName; ?></li>
 			<?php }  $k++; } ?>
 		</ul>
-	</div>
+	</div> -->
      <?php 
 		
 		$imageBlock =  $block->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
