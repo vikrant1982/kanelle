@@ -86,9 +86,9 @@ class Defaults extends AbstractHelper
 		if (is_array($general)) {
 			$data = array_merge($data, $general);
 			/*start code to switch the menu for create category*/
-			if($this->_objectManager->get("\CP\Createdesign\Helper\Data")->isCreateFlowPage() && isset($data['create_group_id'])) {
-				$data['group_id'] = $data['create_group_id'];
-			}
+		//	if($this->_objectManager->get("\CP\Createdesign\Helper\Data")->isCreateFlowPage() && isset($data['create_group_id'])) {
+		//		$data['group_id'] = $data['create_group_id'];
+		//	}
 			/*end code*/
 		}
 

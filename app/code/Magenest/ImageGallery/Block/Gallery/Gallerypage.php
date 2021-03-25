@@ -161,7 +161,7 @@ class Gallerypage extends Template
         if($meta_description == null)
             $meta_description = $this->_scopeConfig->getValue('imagegallery/galleryseoconfig/metadescription', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        $this->pageConfig->getTitle()->set(__('Magenest Full Gallery'));
+        $this->pageConfig->getTitle()->set(__('Gallery'));
         $this->pageConfig->setMetaTitle(__($title));
         $this->pageConfig->setKeywords($meta_keywords);
         $this->pageConfig->setDescription($meta_description);

@@ -69,11 +69,11 @@
 }
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li.commercepundit_megamenu_top_actived > a,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li.commercepundit_megamenu_actived > a{
-	background-color: #CCCCCC;
+	/* background-color: #CCCCCC; */
 }
 
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_title.commercepundit_megamenu_actived > a{
-	color:#3399cc;
+	/* color:#3399cc; */
 }
 
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li:hover,
@@ -88,7 +88,7 @@
 	padding: 0px;
 }
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li a.commercepundit_megamenu_head {
-	color: #333;
+	color: #fff;
 	outline:0;
 	padding: 9px 35px 9px 0px;
 	text-decoration:none;
@@ -100,7 +100,7 @@
 }
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li:last-child a.commercepundit_megamenu_head {
 
-    padding: 5px 0px 0px 0px;
+/*    padding: 5px 0px 0px 0px; */
 
 }
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li:hover a.commercepundit_megamenu_head {
@@ -271,7 +271,10 @@
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_5columns  > .commercepundit_megamenu_firstcolumn,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_6columns  > .commercepundit_megamenu_firstcolumn {
 	width: 100%;
-	padding:0;
+	padding:10px;
+	line-height:25px;
+	color: #fff;
+	background: #000;
 }
 
 /*---------------------------------03 CONTENT STYLING-------------------------------------*/

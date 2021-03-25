@@ -10,7 +10,8 @@
                         <argument name="css_class" xsi:type="string">header links</argument>
                     </arguments>
                 </block>
-				<block class="Plazathemes\Hozmegamenu\Block\Menu" name="hozmegamenu" template="hozmegamenu.phtml"  as='hozmegamenu_top' />
+				<!--<block class="Commercepundit\MegaMenu\Block\MegaMenu\View" name="megamenu.topnav" as="megamenu_topnav" template="Commercepundit_MegaMenu::megamenu.phtml"/>-->
+				 <block class="Plazathemes\Hozmegamenu\Block\Menu" name="hozmegamenu" template="hozmegamenu.phtml"  as='hozmegamenu_top' />
 				<block class="Plazathemes\Hozmegamenu\Block\Menu" name="mobilemenu" template="mobilemenu.phtml"  as='mobilemenu' />
                 <block class="Magento\Framework\View\Element\Template" name="top.search" as="topSearch" template="Magento_Search::form.mini.phtml" />
 				<block class="Magento\Store\Block\Switcher" name="store_language_mobile" as="store_language_mobile" template="switch/languages_mobile.phtml"/>
