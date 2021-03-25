@@ -37,7 +37,7 @@ $banners = $block->getBannerSlider();
 						</div><?php endif; ?>
 						
 						<?php if($banner['click_url']): ?>
-							<a href="<?php echo $banner['click_url'] ?>" class="pt-url">shop now</a>
+							<a href="<?php echo $banner['click_url'] ?>" class="pt-url"><?php echo __($banner['name']) ?></a>
 						<?php endif; ?>
 						
 					</div>	
