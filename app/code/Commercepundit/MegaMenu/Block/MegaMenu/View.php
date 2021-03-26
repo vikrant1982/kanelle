@@ -914,22 +914,22 @@ class View extends Template
 						}
 					}else{
 						if(!$hasLinkType){
-							$html.= $item['depth'] > 1 ? '<div class="'.$prefix.'content">'.$contentType.'</div>' : '';
+							$html.= $item['depth'] > 1 ? '<div class="'.$prefix.'content">'.$contentType.'</div>' : '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
 						}
 					}
 				}else{
 					if(!$hasLinkType){
-						$html.=  $item['depth'] > 1 ? '<div class="'.$prefix.'content">'.$contentType.'</div>' : '';
+						$html.=  $item['depth'] > 1 ? '<div class="'.$prefix.'content">'.$contentType.'</div>' : '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
 					}
 				}
-				$html .= $item['depth'] > 1 ? '</div>' : '';
+				$html .= $item['depth'] > 1 ? '</div>' : '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
 
 			}
 
-			$html.= $item['depth'] > 1 ? '</div>' : '';
+			$html.= $item['depth'] > 1 ? '</div>' : '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
 			
 		}
-		$html .= '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
+		
 		$html .= '</div>' ;
 		
 		
