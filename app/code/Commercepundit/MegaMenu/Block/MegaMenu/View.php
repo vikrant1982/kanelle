@@ -848,11 +848,11 @@ class View extends Template
 		$html = '<div data-link="'.$extenal_link.'" class="'.$divClassName.' '.$firstClassName.' '.$align_right.' '.$_active.' '.$item['custom_class'].'">' ;
 		$link = ($hasLinkType)?$this->getLinkOfType($item):'#';
 		$title = ($item['show_title']==self::STATUS_ENABLED)?'<span class="'.$prefix.'title_lv-'.$item['depth'].'">'.$item['title'].'</span>':'';
-		$icon_title = ($this->hasIcon($item))?'<span class="icon_items_sub"><img src='.$this->filterImage($item).' alt="icon items sub" /></span><span class="'.$prefix.'icon">'.$title.'</span>':$title;
+		$icon_title = ($this->hasIcon($item))?'':$title;
 
 		if($this->isDrop($item) OR $hasLinkType){
 
-			$headTitle = $item['depth'] > 1 ? '<a  class="'.$aClassName.' " href="'.$link.'" '.$this->getTargetAttr($item['target']).' ></a>' : '';
+			$headTitle = $item['depth'] > 1 ? '<a  class="'.$aClassName.' " href="'.$link.'" '.$this->getTargetAttr($item['target']).' >'.$icon_title.'</a>' : '';
 		}
 		else{
 			$headTitle = $item['depth'] > 1 ? $icon_title : '';
@@ -931,7 +931,7 @@ class View extends Template
 		}
 		
 		$html .= '</div>' ;
-		
+
 		
 		return $html;
 	}
