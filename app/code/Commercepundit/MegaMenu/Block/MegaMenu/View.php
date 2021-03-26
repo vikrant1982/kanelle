@@ -923,14 +923,15 @@ class View extends Template
 					}
 				}
 				$html .= $item['depth'] > 1 ? '</div>' : '';
-				$html .= $item['depth'] > 1 ? '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>': '';
+
 			}
 
 			$html.= $item['depth'] > 1 ? '</div>' : '';
-			$html .= $item['depth'] > 1 ? '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>': '';
+			
 		}
-		
+		$html .= '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
 		$html .= '</div>' ;
+		
 		
 		return $html;
 	}
