@@ -47,10 +47,9 @@ $id = ($block->getFrontController()->getRequest()->getParam('id')) ? $block->get
 					<li class="<?php if($itemStartLv['custom_class']){ echo $itemStartLv['custom_class'].'-parent ';}?><?php if( $config['effect'] == 1 || $config['effect'] == 2 ){ echo 'other-toggle ';}?>
 							<?php echo $prefix; ?>lv1 <?php echo ($hasContent)?$prefix.'drop parent':$prefix.'nodrop'?>  <?php echo ($isAlignRight)?$prefix.'right':''?>  <?php echo $_active; ?>">
 						<a class="<?php echo $prefix; ?>head <?php echo ($hasContent)?$prefix.'drop':$prefix.'nodrop'?> <?php if($menuItems->getAllItemsByItemsIdEnabled($itemStartLv['items_id'], $itemStartLv['group_id'],$itemStartLv['status']) || ($itemStartLv['type'] == 7)){ echo $prefix."haschild"; } ?>" href="<?php echo ($hasLinkType)?$block->getLinkOfType($itemStartLv):'javascript:void(0)'?>" <?php echo ($hasLinkType)?$block->getTargetAttr($itemStartLv['target']):'' ?> id="<?php echo $prefix.$itemStartLv['items_id']; ?>">
-							<?php if(!$this->hasIcon($itemStartLv)) {	?>
 							
 									<span class="<?php echo $prefix; ?>icon <?php if(!$itemStartLv['description']){echo $prefix.'nodesc';}?>">
-														<?php } ?>
+														
 										<span class="<?php echo $prefix; ?>title"><?php echo $itemStartLv['title'] ?></span>
 										<?php if($itemStartLv['description']):?>
 											<span class="<?php echo $prefix; ?>description"><?php echo $itemStartLv['description'] ?>&nbsp;</span>
