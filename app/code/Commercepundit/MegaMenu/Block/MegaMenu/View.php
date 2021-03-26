@@ -852,7 +852,7 @@ class View extends Template
 
 		if($this->isDrop($item) OR $hasLinkType){
 
-			$headTitle = $item['depth'] > 1 ? '<a  class="'.$aClassName.' " href="'.$link.'" '.$this->getTargetAttr($item['target']).' >'.$icon_title.'</a>' : '';
+			$headTitle = $item['depth'] > 1 ? '<a  class="'.$aClassName.' " href="'.$link.'" '.$this->getTargetAttr($item['target']).' ></a>' : '';
 		}
 		else{
 			$headTitle = $item['depth'] > 1 ? $icon_title : '';
