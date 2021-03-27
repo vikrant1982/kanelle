@@ -1548,7 +1548,7 @@ transition-duration: .2s;
 
 }
 
-.imageclass {
+.commercepundit_megamenu_firstcolumn .imageclass {
 	float:left;
 	width:40px;
 	padding: 5px;
@@ -1561,7 +1561,5 @@ transition-duration: .2s;
 }
 
 .menu-main {
-	width:100%;
-	background: #000;
 	padding: 25px;
 }
