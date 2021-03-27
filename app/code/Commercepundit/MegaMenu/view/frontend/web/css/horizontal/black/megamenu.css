@@ -270,7 +270,7 @@
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_4columns  > .commercepundit_megamenu_firstcolumn,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_5columns  > .commercepundit_megamenu_firstcolumn,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_6columns  > .commercepundit_megamenu_firstcolumn {
-	width: 100%;
+	width: 100%; 
 	padding:10px;
 	line-height:25px;
 	color: #fff;
