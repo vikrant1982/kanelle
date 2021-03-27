@@ -1,4 +1,3 @@
-
 /* .sambar{
 	position: relative;
 } */
@@ -87,6 +86,7 @@
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li.commercepundit_megamenu_nodrop:hover a {
 	padding: 0px;
 }
+
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li a.commercepundit_megamenu_head {
 	color: #fff;
 	outline:0;
@@ -94,8 +94,8 @@
 	text-decoration:none;
 	display:block;
 	position: relative;
-	font-family:'Open Sans';
-	font-size: 14px;
+	font-family:'Panton';
+	font-size: 16px;
 	letter-spacing: 0;
 }
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li:last-child a.commercepundit_megamenu_head {
@@ -104,7 +104,7 @@
 
 }
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li:hover a.commercepundit_megamenu_head {
-	color:#fc487f;
+	color:#B85B4F;
 	text-shadow: none;
 	position:relative;
 	z-index:11;
@@ -157,7 +157,7 @@
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_3columns {width: 48.4339122772218%;}
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_4columns {width: 64.5785497029624%;}
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_5columns {width: 80.723187128703%;}
-.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_6columns {width: 100%;left: 0;}
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_6columns {width: 100%; background:#000;}
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_fullwidth {
 	width: 100%;
 	-moz-border-radius:5px;
@@ -185,11 +185,15 @@
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li.other-toggle.open.commercepundit_megamenu_dropdown_3columns,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li.other-toggle.open .commercepundit_megamenu_dropdown_4columns,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li.other-toggle.open.commercepundit_megamenu_dropdown_5columns,
+
+
+
+
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li.other-toggle.open .commercepundit_megamenu_dropdown_6columns {
 	top:auto;
 	padding:0;
 	border:0 none;
-	background: #FFFFFF;
+	background: #000;
 }
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li:hover .commercepundit_megamenu_title {
 
@@ -270,7 +274,7 @@
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_4columns  > .commercepundit_megamenu_firstcolumn,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_5columns  > .commercepundit_megamenu_firstcolumn,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_6columns  > .commercepundit_megamenu_firstcolumn {
-	width: 40%; 
+	width: 40%;
 	padding:10px;
 	line-height:25px;
 	color: #fff;
@@ -283,10 +287,11 @@
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu ul,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu h2,
+
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu h3 {
 	color:#636363;
 	font-size:14px;
-	font-family:Arial, Helvetica, sans-serif;
+	font-family:'Panton', sans-serif;
 	line-height:15px;
 	text-align:left;
 }
@@ -331,7 +336,7 @@
 	padding-bottom:7px;
 }
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li div a {
-	color: #7a7a7a;
+	color: #ffffff;
 	text-decoration:none;
 font-family:@font-family__Lato_bo;font-weight:@bold;font-style: @normal;
 	text-shadow:none;
@@ -442,7 +447,7 @@ transition-duration: .2s;
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu li ul li:hover {
 	background:none;
 	border:none;
-	color: #3399cc;
+	color: #D09077;
 	padding:0;
 	margin:0;
 }
@@ -665,7 +670,7 @@ transition-duration: .2s;
 }
 
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu_black li:hover div a:hover {
-	color:#3399cc;
+	color:#D09077;
 }
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu_black li ul li a:hover {
 	color:#CCC;
@@ -1557,6 +1562,7 @@ transition-duration: .2s;
 .menu-image {
 	float:right;
 	width:60%;
+	padding:20px;
 	
 }
 
