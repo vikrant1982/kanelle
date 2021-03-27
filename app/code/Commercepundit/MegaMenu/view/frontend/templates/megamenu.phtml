@@ -82,8 +82,9 @@ $id = ($block->getFrontController()->getRequest()->getParam('id')) ? $block->get
 							if(count($childItems) > 0)
 							{
 								?>
-								<div class="<?php echo $divClassName?>">
+								<div class="<?php echo $divClassName?> menu-main">
 									<?php echo $block->getItemHtml($itemStartLv, true,7);	 ?>
+								<div class="menu-image"><img src='<?php echo $this->filterImage($itemStartLv); ?>' alt="icon items"></div>
 								</div>
 
 							<?php }
