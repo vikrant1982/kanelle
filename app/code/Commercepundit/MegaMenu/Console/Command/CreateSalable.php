@@ -18,18 +18,20 @@ class CreateSalable extends Command {
 
     protected $category_array = ['3' => '30'];
     protected $categoryLinkRepository;
-    protected $_productCollection;
+    protected $_productCollectionFactory;
     protected $categoryLinkManagementInterface;
     protected $categoryRepository;
+    protected $collection;
 
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
         \Magento\Framework\Filesystem\Io\File $ioFile,
         \Magento\Catalog\Model\CategoryLinkRepository $categoryLinkRepository,
-        \Magento\Catalog\Model\ResourceModel\Product\Collection $productCollection,
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkManagementInterface,
-        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepositoryInterface
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepositoryInterface,
+        \Magento\Catalog\Model\ResourceModel\Product\Collection;
     ) {       
 
         $this->_storeManager = $storeManager;
@@ -38,7 +40,8 @@ class CreateSalable extends Command {
         $this->categoryLinkRepository = $categoryLinkRepository;
         $this->categoryLinkManagementInterface = $categoryLinkManagementInterface;
         $this->categoryRepository = $categoryRepositoryInterface;
-        $this->_productCollection = $productCollection;
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->collection = $collection;
         parent::__construct();
         
     }
@@ -109,7 +112,7 @@ class CreateSalable extends Command {
 
     public function getProductCollectionByCategories($ids)
     {
-        $collection = $this->_productCollection->create();
+        $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*');
         $collection->addCategoriesFilter(['in' => $ids]);
         return $collection;
@@ -117,7 +120,7 @@ class CreateSalable extends Command {
 
     public function getSpecialProductByCategories(){
         $category_id = '';//$this->getData("category_id");
-        $collection = clone $this->_productCollection;
+        $collection = clone $this->collection;
         $collection ->clear() ->getSelect() ->reset(\Magento\Framework\DB\Select::WHERE)->reset(\Magento\Framework\DB\Select::ORDER)
             ->reset(\Magento\Framework\DB\Select::LIMIT_COUNT)
             ->reset(\Magento\Framework\DB\Select::LIMIT_OFFSET)
