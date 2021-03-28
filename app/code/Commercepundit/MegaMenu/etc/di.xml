@@ -24,7 +24,7 @@
 	<type name="Magento\Framework\Console\CommandList">
 	    <arguments>
 	        <argument name="commands" xsi:type="array">
-	 			<item name="createmenujson" xsi:type="object">Commercepundit\Megamenu\Console\Command\CreateSalable</item>
+	 			<item name="createmenujson" xsi:type="object">Commercepundit\MegaMenu\Console\Command\CreateSalable</item>
 	        </argument>
 	    </arguments>
 	</type>
