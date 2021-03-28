@@ -79,7 +79,7 @@ class CreateSalable extends Command {
     private function assignProductToCategories(){
         $specialCollections = $this->getSpecialProductByCategories();
         foreach($specialCollections as $specialCollection){
-            $this->categoryRepository->assignProductToCategories($specialCollection->getSku(), 30);
+            $this->categoryLinkManagementInterface->assignProductToCategories($specialCollection->getSku(), 30);
         }
 
    
