@@ -14,9 +14,7 @@ class CreateSalable extends Command {
 
     protected $ioFile;
 
-    protected $menuFolder = 'megamenujson';
-
-    protected $_curl;
+  
 
     protected $category_array = ['3' => '30'];
     protected $categoryLinkRepository;
@@ -28,7 +26,6 @@ class CreateSalable extends Command {
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
         \Magento\Framework\Filesystem\Io\File $ioFile,
-        \Magento\Framework\HTTP\Client\Curl $curl,
         \Magento\Catalog\Model\CategoryLinkRepository $categoryLinkRepository,
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkManagementInterface,
@@ -38,7 +35,6 @@ class CreateSalable extends Command {
         $this->_storeManager = $storeManager;
         $this->directoryList    = $directoryList;
         $this->ioFile           = $ioFile;
-        $this->_curl = $curl;
         $this->categoryLinkRepository = $categoryLinkRepository;
         $this->categoryLinkManagementInterface = $categoryLinkManagementInterface;
         $this->categoryRepository = $categoryRepositoryInterface;
