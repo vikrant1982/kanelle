@@ -117,7 +117,7 @@ class CreateSalable extends Command {
 
     public function getSpecialProductByCategories(){
         $category_id = '';//$this->getData("category_id");
-        $collection = clone $this->_productCollection();
+        $collection = clone $this->_productCollection;
         $collection ->clear() ->getSelect() ->reset(\Magento\Framework\DB\Select::WHERE)->reset(\Magento\Framework\DB\Select::ORDER)
             ->reset(\Magento\Framework\DB\Select::LIMIT_COUNT)
             ->reset(\Magento\Framework\DB\Select::LIMIT_OFFSET)
