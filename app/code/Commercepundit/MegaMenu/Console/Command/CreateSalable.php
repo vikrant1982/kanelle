@@ -31,7 +31,7 @@ class CreateSalable extends Command {
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkManagementInterface,
         \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepositoryInterface,
-        \Magento\Catalog\Model\ResourceModel\Product\Collection;
+        \Magento\Catalog\Model\ResourceModel\Product\Collection $collection;
     ) {       
 
         $this->_storeManager = $storeManager;
