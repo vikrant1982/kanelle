@@ -38,6 +38,7 @@ class CreateSalable extends Command {
         $this->categoryLinkRepository = $categoryLinkRepository;
         $this->categoryLinkManagementInterface = $categoryLinkManagementInterface;
         $this->categoryRepository = $categoryRepositoryInterface;
+        $this->_productCollectionFactory = $productCollectionFactory;
         parent::__construct();
         
     }
