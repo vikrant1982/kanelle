@@ -22,6 +22,7 @@ class CreateSalable extends Command {
     protected $categoryLinkManagementInterface;
     protected $categoryRepository;
     protected $collection;
+    protected $_configurable;
 
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -31,7 +32,8 @@ class CreateSalable extends Command {
         \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkManagementInterface,
         \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepositoryInterface,
-        \Magento\Catalog\Model\ResourceModel\Product\Collection $collection
+        \Magento\Catalog\Model\ResourceModel\Product\Collection $collection,
+        \Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable $configurable
     ) {       
 
         $this->_storeManager = $storeManager;
@@ -42,6 +44,7 @@ class CreateSalable extends Command {
         $this->categoryRepository = $categoryRepositoryInterface;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->collection = $collection;
+        $this->_configurable = $configurable;
         parent::__construct();
         
     }
@@ -49,8 +52,7 @@ class CreateSalable extends Command {
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure(){
         $this->setName('megamenu:create')
             ->setDescription('Creating Sala product');
         parent::configure();
@@ -63,8 +65,7 @@ class CreateSalable extends Command {
      * @throws \Magento\Framework\Exception\LocalizedException
      * @return null|int null or 0 if everything went fine, or an error code
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    protected function execute(InputInterface $input, OutputInterface $output){
         $output->writeln('<info>Start</info>');
 
         $output->writeln('<info>Removing Old Sales Product...</info>');
@@ -77,9 +78,10 @@ class CreateSalable extends Command {
     }
 
     private function assignProductToCategories(){
-        $specialCollections = $this->getSpecialProductByCategories();
-        foreach($specialCollections as $specialCollection){
-            $this->categoryLinkManagementInterface->assignProductToCategories($specialCollection->getSku(), array(30));
+        $Ids = $this->getSpecialProductByCategories();
+        foreach($Ids as $id){
+            $product = $this->_productCollectionFactory->create()->load($id);
+            $this->categoryLinkManagementInterface->assignProductToCategories($product->getSku(), array('30'));
         }
 
    
@@ -88,8 +90,7 @@ class CreateSalable extends Command {
 
     
 
-    private function unassignedProductFromCategory($categoryId)
-    {  
+    private function unassignedProductFromCategory($categoryId){  
 
         try {
             $pCollections = $this->getProductCollectionByCategories($categoryId);
@@ -110,8 +111,7 @@ class CreateSalable extends Command {
     }
 
 
-    public function getProductCollectionByCategories($ids)
-    {
+    public function getProductCollectionByCategories($ids){
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*');
         $collection->addCategoriesFilter(['in' => $ids]);
@@ -119,46 +119,23 @@ class CreateSalable extends Command {
     }
 
     public function getSpecialProductByCategories(){
-        $category_id = '';//$this->getData("category_id");
-        $collection = clone $this->collection;
-        $collection ->clear() ->getSelect() ->reset(\Magento\Framework\DB\Select::WHERE)->reset(\Magento\Framework\DB\Select::ORDER)
-            ->reset(\Magento\Framework\DB\Select::LIMIT_COUNT)
-            ->reset(\Magento\Framework\DB\Select::LIMIT_OFFSET)
-            ->reset(\Magento\Framework\DB\Select::GROUP);
-        if (!$category_id) 
-        {
-            $category_id = $this->_storeManager->getStore()->getRootCategoryId();
-        }
-        $category = $this->categoryRepository->get($category_id);
-        $now = date('Y-m-d');
-        if (isset($category) && $category) 
-        {
-            $collection->addMinimalPrice() ->addFinalPrice()
-                ->addTaxPercents()->addAttributeToSelect('name')
+        $Ids = array();
+         $collection->addAttributeToSelect('*')
                 ->addAttributeToFilter('special_price', ['neq' => ''])
-                ->addAttributeToFilter([['attribute' => 'special_from_date',
-                'lteq' => date('Y-m-d G:i:s', strtotime($now)),
-                'date' => true, ], 
-                    ['attribute' => 'special_to_date',
-                    'gteq' => date('Y-m-d G:i:s', strtotime($now)), 'date' => true,]])
-                    ->addAttributeToFilter('is_saleable', 1, 'left');
-        } 
-        else 
-        {
-            $collection->addMinimalPrice() ->addFinalPrice()
-                ->addTaxPercents() ->addAttributeToSelect('*')
-                ->addAttributeToFilter('special_price', ['neq' => ''])
-                ->addAttributeToSelect('special_from_date')
-                ->addAttributeToSelect('special_to_date')
-                ->addAttributeToFilter([['attribute' => 'special_from_date',
-                'lteq' => date('Y-m-d G:i:s', strtotime($now)),
-                'date' => true, ], ['attribute' => 'special_to_date',
-                'gteq' => date('Y-m-d G:i:s', strtotime($now)),
-                'date' => true,]])
                 ->addAttributeToFilter('is_saleable', 1, 'left');
+        $productCol = $collection->getSelect();
+
+        foreach($productCol as $product){
+            $confId = $this->_configurable->getParentIdsByChild($product->getId());
+           if($confId){
+            $Ids[] = $confId;
+           } else {
+               $Ids[] = $product->getId();
+           }
+
         }
-        $collection->getSelect();
-        return $collection;
+
+        return array_unique($Ids); 
 
     }
 
