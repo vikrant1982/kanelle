@@ -163,9 +163,7 @@ class CreateSalable extends Command {
 
     }
 
-    public function getLoadedProductCollection(){
-        return $this->getProducts();
-    }
+   
 
     public function getProductCount(){
         $limit = $this->getData("product_count");
