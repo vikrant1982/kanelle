@@ -1,6 +1,6 @@
 <?php
 
-namespace Commercepundit\Megamenu\Console\Command;
+namespace Commercepundit\MegaMenu\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
