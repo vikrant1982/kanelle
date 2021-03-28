@@ -1,6 +1,6 @@
 <?php
 
-namespace Ves\Megamenu\Console\Command;
+namespace Commercepundit\Megamenu\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -104,7 +104,7 @@ class CreateSalable extends Command {
     }
 
 
-    public mapCategory($id){
+    public function mapCategory($id){
         return $category_array[$id];
 
     }
