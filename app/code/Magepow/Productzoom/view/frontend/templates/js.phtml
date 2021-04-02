@@ -1,0 +1,41 @@
+<?php
+$jsonHelper = $this->helper('Magento\Framework\Json\Helper\Data');
+$helper     = $this->helper('Magepow\Productzoom\Helper\Data');
+$data       = $helper->getConfigModule('general');
+foreach ($data as $key => $value) {
+    if(is_numeric($value)){
+        $data[$key] = (float) $value;
+        continue;
+    }
+    $value = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    if(!is_null($value)){
+        $data[$key] = $value; 
+    }
+}
+?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'magepow/elevatezoom',
+        ], function($){
+            "use strict";
+
+            if( $(window).width() < 768 ) return;
+            var options = <?php echo is_array($data) ? $jsonHelper->jsonEncode($data) : '{}' ?>;
+            $('head').append('<style type="text/css">.zoomContainer{z-index:' + options.zIndex + '}</style>');
+            $(document).on('fotorama:load fotorama:showend fotorama:fullscreenenter fotorama:fullscreenexit', function (event, fotorama, extra) {
+                $('.zoomContainer').remove();
+                if(event.type == 'fotorama:fullscreenenter') return;
+                if( fotorama.activeFrame.type != 'image' || $('body').hasClass('fotorama__fullscreen') ) return;
+                var img = $('.product.media .fotorama__stage .fotorama__active .fotorama__img');
+                if(!img.length) return;
+                var defaults = {
+                    zoomWindowWidth : img.width(),
+                    zoomWindowHeight: img.height()
+                };
+                var settings = $.extend(defaults, options);
+                if(fotorama.activeFrame.full) img.data('zoom-image', fotorama.activeFrame.full);
+                img.elevateZoom(settings);
+            });
+    });
+</script>
