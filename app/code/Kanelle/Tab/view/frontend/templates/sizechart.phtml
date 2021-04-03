@@ -12,8 +12,94 @@
                 class: 'action'
             }]
         }}">
-    <div class="content">
-<div class="table-data">
+
+
+ <div class="main__wrapper">
+        <div class="container">
+            <ul class="breadcrumb-container col col-lg-8">
+                <li class="breadcrumb-container__item">Home<span>></span></li>
+                <li class="breadcrumb-container__item visited">Size Chart</li>
+            </ul>
+            <div class="main-section col col-lg-8">
+                <div class="section__heading">
+                    <h1 class="section__heading__title">
+                        Size Chart
+                    </h1>
+                    <div class="section__heading__content">
+                        <h3 class="section__heading__content__title">TOP/DRESSES MEASUREMENTS*</h3>
+                        <p class="section__heading__content__text-L">
+                            *All measurements are in inches. Measurements of different styles vary with their shapes.
+                        </p>
+                    </div>
+                </div>
+                <table class="size-chart-table col-12">
+                    <tr class="size-chart-table__head">
+                        <th></th>
+                        <th>SMALL</th>
+                        <th>MEDIUM</th>
+                        <th>LARGE</th>
+                    </tr>
+                    <tr>
+                        <td>BUST</td>
+                        <td>36”</td>
+                        <td>38”</td>
+                        <td>41”</td>
+                    </tr>
+                    <tr>
+                        <td>WAIST</td>
+                        <td>28”</td>
+                        <td>30”</td>
+                        <td>34”</td>
+                    </tr>
+                    <tr>
+                        <td>HIP</td>
+                        <td>38”</td>
+                        <td>40”</td>
+                        <td>43”</td>
+                    </tr>
+                    <tr>
+                        <td>SHOULDER</td>
+                        <td>14”</td>
+                        <td>14”</td>
+                        <td>16”</td>
+                    </tr>
+                </table>
+                <div class="section__heading">
+                    <div class="section__heading__content">
+                        <h3 class="section__heading__content__title">BOTTOM MEASURMENTS*</h3>
+                        <p class="section__heading__content__text-L">
+                            *All measurements are in inches.
+                        </p>
+                    </div>
+                </div>
+                <table class="size-chart-table col-12">
+                    <tr class="size-chart-table__head">
+                        <th class="blank-th">.......................</th>
+                        <th>SMALL</th>
+                        <th>MEDIUM</th>
+                        <th>LARGE</th>
+                    </tr>
+                    <tr>
+                        <td>WAIST</td>
+                        <td>28”</td>
+                        <td>30”</td>
+                        <td>34”</td>
+                    </tr>
+                    <tr>
+                        <td>HIP</td>
+                        <td>36-38”</td>
+                        <td>38-40”</td>
+                        <td>42-44”</td>
+                    </tr>
+                </table>
+                <div class="chart-model col-10 col-md-5">
+                    <img src=".<?php echo $this->getViewFileUrl('Kanelle_Tab::images/sizeChart.jpg'); ?>" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    div class="table-data">
         <h2><strong>TOP/DRESSES MEASUREMENTS</strong></h2>
 <p>*All measurements are in inches. Measurements of different styles vary with their shapes.</p>
 <table>
@@ -76,9 +162,5 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="size-image">
-<p><img src="<?php echo $this->getViewFileUrl('Kanelle_Tab::images/sizeChart.jpg'); ?>" alt=”Size chart” /></p>
-</div>
-    </div>
+</div>   
 </div>
