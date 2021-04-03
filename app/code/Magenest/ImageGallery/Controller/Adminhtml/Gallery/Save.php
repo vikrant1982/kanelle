@@ -166,10 +166,10 @@ class Save extends \Magento\Backend\App\Action
 
                             $result = $uploader->save(
                                 $mediaDirectory
-                                    ->getAbsolutePath('Modulename/Profile')
+                                    ->getAbsolutePath('ImageGallery/Profile')
                             );
                             //$data['profile'] = 'Modulename/Profile/'. $result['file'];
-                            $model->setProfile('Modulename/Profile'.$result['file']); //Database field name
+                            $model->setProfile('ImageGallery/Profile'.$result['file']); //Database field name
                         } catch (\Exception $e) {
                             if ($e->getCode() == 0) {
                                 $this->messageManager->addError($e->getMessage());
