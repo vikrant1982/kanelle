@@ -132,6 +132,19 @@ class Main extends Generic implements TabInterface
             ]
         );
 
+
+        $fieldset->addField(
+            'image',
+            'image',
+            array(
+                'name' => 'image',
+                'label' => __('Hero Image'),
+                'title' => __('Image')
+            )
+        );
+
+
+
         $fieldset->addField(
             'status',
             'select',

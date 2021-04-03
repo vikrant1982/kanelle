@@ -144,6 +144,38 @@ class Save extends \Magento\Backend\App\Action
                                 break;
                         }
                     }
+                    $profileImage = $this->getRequest()->getFiles('hero_image');
+                    $fileName = ($profileImage && array_key_exists('name', $profileImage)) ? $profileImage['name'] : null;
+                    if ($profileImage && $fileName) {
+                        try {
+                            /** @var \Magento\Framework\ObjectManagerInterface $uploader */
+                            $uploader = $this->_objectManager->create(
+                                'Magento\MediaStorage\Model\File\Uploader',
+                                ['fileId' => 'profile']
+                            );
+                            $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
+                            /** @var \Magento\Framework\Image\Adapter\AdapterInterface $imageAdapterFactory */
+                            $imageAdapterFactory = $this->_objectManager->get('Magento\Framework\Image\AdapterFactory')
+                                ->create();
+                            $uploader->setAllowRenameFiles(true);
+                            $uploader->setFilesDispersion(true);
+                            $uploader->setAllowCreateFolders(true);
+                            /** @var \Magento\Framework\Filesystem\Directory\Read $mediaDirectory */
+                            $mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')
+                                ->getDirectoryRead(DirectoryList::MEDIA);
+
+                            $result = $uploader->save(
+                                $mediaDirectory
+                                    ->getAbsolutePath('Modulename/Profile')
+                            );
+                            //$data['profile'] = 'Modulename/Profile/'. $result['file'];
+                            $model->setProfile('Modulename/Profile'.$result['file']); //Database field name
+                        } catch (\Exception $e) {
+                            if ($e->getCode() == 0) {
+                                $this->messageManager->addError($e->getMessage());
+                            }
+                        }
+                    }
 
                     if ($errorMessage != '')
                     {
