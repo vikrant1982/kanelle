@@ -215,7 +215,97 @@ class Gallerypage extends Template
 
         if ($gallery_id == null || $gallery_id == 0)
         {
-            return;
+            //Get image from all galleries
+            $list_image_all = [];
+            $galleryCollection = $this->_galleryCollectionFactory->create()->addFieldToFilter('status',0);
+
+            foreach ($galleryCollection as $gallery) {
+                $galleryImageCollection = $this->galleryImageCollectionFactory->create()->addFieldToFilter('gallery_id',$gallery->getData('gallery_id'));
+                foreach ($galleryImageCollection as $item)
+                    if (!in_array($item->getData('image_id'),$list_image_all))
+                        array_push($list_image_all, $item->getData('image_id'));
+            }
+
+            //select enable image
+            $list_disable_image = [];
+            foreach ($list_image_all as $key => $value)
+            {
+                $status = $this->imageFactory->create()->load($value)->getData('status');
+                if($status == 1)
+                {
+                    array_push($list_disable_image,$value);
+                }
+            }
+
+            $list_image_all = array_merge(array_diff($list_image_all,$list_disable_image));
+
+            for ($i = 0; $i < sizeof($list_image_all); $i++)
+            {
+                $imageModel = $this->imageFactory->create()->load($list_image_all[$i]);
+                $this->loadedImage[$imageModel->getData('image_id')] = [
+                    'image_id' => $imageModel->getData('image_id'),
+                    'image' => $imageModel->getData('image'),
+                    'title' => $imageModel->getData('title'),
+                    'description' => $imageModel->getData('description'),
+                    'sortorder' => $imageModel->getData('sortorder'),
+                    'status' => $imageModel->getData('status'),
+                    'love' => $imageModel->getData('love'),
+                    'product_id' => $imageModel->getData('product_id')
+                ];
+            }
+
+            //filter by sort order
+            for ($i = 0; $i < sizeof($list_image_all) - 1; $i++)
+                for ($j = $i + 1; $j < sizeof($list_image_all); $j++) {
+                    $sortorder1 = $this->loadedImage[$list_image_all[$i]]['sortorder'];
+                    $sortorder2 = $this->loadedImage[$list_image_all[$j]]['sortorder'];
+
+                    if ($sortorder1 > $sortorder2) {
+                        $change = $list_image_all[$i];
+                        $list_image_all[$i] = $list_image_all[$j];
+                        $list_image_all[$j] = $change;
+                    }
+                }
+
+            $customerId = $this->customerSession->getCustomerId();
+            $descriptionGallery = "";
+            $layout_type = "0";
+            $list_all = [];
+            $color = "white";
+            foreach ($list_image_all as $image) {
+                if (isset($customerId)) {
+                    $interactCollection = $this->interactCollectionFactory->create()
+                        ->addFieldToFilter('customer_id', $customerId)
+                        ->addFieldToFilter('image_id', $this->loadedImage[$image]['image_id'])
+                        ->getFirstItem()->getData();
+
+                    if (!empty($interactCollection)) {
+                        if ($interactCollection['status'] == 0)
+                            $color = "red";
+                        else
+                            $color = "white";
+                    } else
+                        $color = "white";
+
+                }
+
+                $productModel = $this->productFactory->create()->load($this->loadedImage[$image]['product_id']);
+
+                $list_all[] = [
+                    'image_id' => $this->loadedImage[$image]['image_id'],
+                    'image' => $this->loadedImage[$image]['image'],
+                    'title' => $this->loadedImage[$image]['title'],
+                    'description' => $this->loadedImage[$image]['description'],
+                    'gallery_description' => $descriptionGallery,
+                    'love' => $this->loadedImage[$image]['love'],
+                    'color' => $color,
+                    'layout_type' => $layout_type,
+                    'product_id' => $this->loadedImage[$image]['product_id'],
+                    'product_name' => $productModel->getData('name'),
+                    'product_link' => $productModel->getProductUrl()
+                ];
+            }
+            return $list_all;
         }
 
         $list_image = $this->galleryImageCollectionFactory->create()
