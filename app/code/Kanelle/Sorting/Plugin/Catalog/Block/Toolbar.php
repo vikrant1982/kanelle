@@ -13,6 +13,12 @@ public function aroundSetCollection(\Magento\Catalog\Block\Product\ProductList\T
 	elseif ($currentOrder == 'low_to_high'){
 		$subject->getCollection()->setOrder('price', 'asc');
 	}
+	elseif ($currentOrder == 'a_to_z'){
+		$subject->getCollection()->setOrder('name', 'asc');
+	}
+	elseif ($currentOrder == 'z_to_a'){
+		$subject->getCollection()->setOrder('name', 'desc');
+	}
 }
 else{
 	$subject->getCollection()->getSelect()->reset('order');
