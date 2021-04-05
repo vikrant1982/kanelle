@@ -9,7 +9,7 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Config\Source;
+namespace Kanelle\Sorting\Plugin\Catalog\Model\Config\Source;
 
 class ListSort
 {
