@@ -8,4 +8,7 @@ xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xs
 	<type name="Magento\Catalog\Model\Config">
 		<plugin name="custom_catalog_model_config" type="Kanelle\Sorting\Plugin\Catalog\Model\Config"/>
 	</type>
+	<type name="Magento\Catalog\Model\Config\Source\ListSort">
+		<plugin name="custom_catalog_model_config" type="Kanelle\Sorting\Plugin\Catalog\Model\Config\Source\ListSort"/>
+	</type>
 </config>
