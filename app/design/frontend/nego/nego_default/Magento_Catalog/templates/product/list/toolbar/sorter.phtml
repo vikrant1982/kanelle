@@ -21,7 +21,7 @@ use Magento\Catalog\Model\Product\ProductList\Toolbar;
         <?php foreach ($block->getAvailableOrders() as $_key => $_order): ?>
            <?php if($_key == 'position' || $_key == 'price' || $_key == 'name') continue; ?>
             <option value="<?= /* @escapeNotVerified */ $_key ?>"
-                <?php if ($block->isOrderCurrent($_key)): ?>
+                <?php if ($block->isOrderCurrent('a_to_z')): ?>
                     selected="selected"
                 <?php endif; ?>
                 >
