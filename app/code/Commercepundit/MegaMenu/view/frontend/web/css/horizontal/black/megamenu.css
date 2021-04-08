@@ -156,8 +156,8 @@
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_2columns {width: 32.2892748514812%;}
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_3columns {width: 48.4339122772218%;}
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_4columns {width: 64.5785497029624%;}
-.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_5columns {width: 80.723187128703%;}
-.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_6columns {width: 100%; background:#000;}
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_5columns {width: 275%; left: -100px;}
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_6columns {width: 275%%; left: -100px; background:#000;}
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu .commercepundit_megamenu_dropdown_fullwidth {
 	width: 100%;
 	-moz-border-radius:5px;
