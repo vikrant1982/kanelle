@@ -274,17 +274,19 @@
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_4columns  > .commercepundit_megamenu_firstcolumn,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_5columns  > .commercepundit_megamenu_firstcolumn,
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_6columns  > .commercepundit_megamenu_firstcolumn {
-	width: 40%;
+	/*width: 40%; */
 	padding:10px;
-	line-height:25px;
+	line-height:35px;
 	color: #fff;
 	background: #000;
+	text-transform: uppercase;
+
 }
 
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_1columns  > .commercepundit_megamenu_firstcolumn,
-.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_2columns  > .commercepundit_megamenu_firstcolumn { margin-left: 23.4% }
-.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_3columns  > .commercepundit_megamenu_firstcolumn { margin-left: 19.4% }
-.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_4columns  > .commercepundit_megamenu_firstcolumn { margin-left: 15.4%; }
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_2columns  > .commercepundit_megamenu_firstcolumn { margin-left: 25.4% }
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_3columns  > .commercepundit_megamenu_firstcolumn { margin-left: 20.4% }
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_4columns  > .commercepundit_megamenu_firstcolumn { margin-left: 16.4%; }
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_5columns  > .commercepundit_megamenu_firstcolumn { margin-left: 9.4%;}
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_6columns  > .commercepundit_megamenu_firstcolumn { margin-left: 5.4%;}
 
@@ -302,7 +304,7 @@
 	line-height:15px;
 	text-align:left;
 	text-transform: uppercase;
-	line-height: 35px;
+
 }
 
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu p {
