@@ -279,8 +279,14 @@
 	line-height:25px;
 	color: #fff;
 	background: #000;
-	left: 100px;
 }
+
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_1columns  > .commercepundit_megamenu_firstcolumn,
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_2columns  > .commercepundit_megamenu_firstcolumn { margin-left: 23.4% }
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_3columns  > .commercepundit_megamenu_firstcolumn { margin-left: 19.4% }
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_4columns  > .commercepundit_megamenu_firstcolumn { margin-left: 15.4%; }
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_5columns  > .commercepundit_megamenu_firstcolumn { margin-left: 9.4%;}
+.commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu  .commercepundit_megamenu_dropdown_6columns  > .commercepundit_megamenu_firstcolumn { margin-left: 5.4%;}
 
 /*---------------------------------03 CONTENT STYLING-------------------------------------*/
 
@@ -295,6 +301,8 @@
 	font-family:'Panton', sans-serif;
 	line-height:15px;
 	text-align:left;
+	text-transform: uppercase;
+	line-height: 35px;
 }
 
 .commercepundit_megamenu_wrapper_horizontal_menu .commercepundit_megamenu_menu p {
