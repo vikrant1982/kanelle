@@ -19,11 +19,13 @@ class AutowiringFailedException extends RuntimeException
     private $serviceId;
     private $messageCallback;
 
-    public function __construct(string $serviceId, $message = '', int $code = 0, \Exception $previous = null)
+    public function __construct(string $serviceId, $message = '', int $code = 0, \Throwable $previous = null)
     {
         $this->serviceId = $serviceId;
 
-        if ($message instanceof \Closure && \function_exists('xdebug_is_enabled') && xdebug_is_enabled()) {
+        if ($message instanceof \Closure
+            && (\function_exists('xdebug_is_enabled') ? xdebug_is_enabled() : \function_exists('xdebug_info'))
+        ) {
             $message = $message();
         }
 

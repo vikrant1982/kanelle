@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
  */
 class DefaultsConfigurator extends AbstractServiceConfigurator
 {
-    const FACTORY = 'defaults';
+    public const FACTORY = 'defaults';
 
     use Traits\AutoconfigureTrait;
     use Traits\AutowireTrait;
@@ -42,7 +42,7 @@ class DefaultsConfigurator extends AbstractServiceConfigurator
      *
      * @throws InvalidArgumentException when an invalid tag name or attribute is provided
      */
-    final public function tag(string $name, array $attributes = [])
+    final public function tag(string $name, array $attributes = []): self
     {
         if ('' === $name) {
             throw new InvalidArgumentException('The tag name in "_defaults" must be a non-empty string.');
@@ -61,10 +61,8 @@ class DefaultsConfigurator extends AbstractServiceConfigurator
 
     /**
      * Defines an instanceof-conditional to be applied to following service definitions.
-     *
-     * @return InstanceofConfigurator
      */
-    final public function instanceof(string $fqcn)
+    final public function instanceof(string $fqcn): InstanceofConfigurator
     {
         return $this->parent->instanceof($fqcn);
     }

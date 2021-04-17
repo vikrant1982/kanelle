@@ -186,6 +186,28 @@ class Gallerypage extends Template
         else return 0;
     }
 
+   public function getEnableDisable(){
+        $galleryId = $this->_request->getParam('gallery_id');
+
+        if($galleryId == null)
+            return 'display:none';
+        else{
+            return '';
+        }
+
+    }
+
+  public function getGalleryEnable(){
+        $galleryId = $this->_request->getParam('gallery_id');
+
+        if($galleryId == null)
+            return '';
+        else{
+            return 'display:none';
+        }
+
+    }
+
     /**
      * @return string
      * @throws \Magento\Framework\Exception\NoSuchEntityException
@@ -205,6 +227,15 @@ class Gallerypage extends Template
         else
             return $this->getUrl() . $url['request_path'];
     }
+
+
+/*	function getDescription(){
+        $galleryId = $this->_request->getParam('gallery_id');
+        $galleryCollection = $this->_galleryCollectionFactory->create()->addFieldToFilter('gallery_id',$galleryId);
+        retiurn $galleryCollection->getDescription2();
+
+
+    }*/
 
     /**
      * @return array

@@ -120,7 +120,9 @@ class CreateSalable extends Command {
 
     public function getSpecialProductByCategories(){
         $Ids = array();
-         $collection->addAttributeToSelect('*')
+        $collection = $this->_productCollectionFactory->create();
+	$collection = clone $this->collection;
+        $collection->addAttributeToSelect('*')
                 ->addAttributeToFilter('special_price', ['neq' => ''])
                 ->addAttributeToFilter('is_saleable', 1, 'left');
         $productCol = $collection->getSelect();
@@ -134,6 +136,7 @@ class CreateSalable extends Command {
            }
 
         }
+        print_r($Ids); die;
 
         return array_unique($Ids); 
 

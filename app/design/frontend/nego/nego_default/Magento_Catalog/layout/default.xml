@@ -11,7 +11,7 @@
         <referenceBlock name="view.addto.compare" remove="true" />
         <referenceContainer name="header-wrapper">
             <container name="compare-link-wrapper" label="Compare Link Wrapper" as="compare-link-wrapper" after="top.search" htmlTag="ul" htmlClass="compare wrapper">
-                <block class="Magento\Framework\View\Element\Template" name="catalog.compare.link" before="-" template="Magento_Catalog::product/compare/link.phtml">
+              <!--  <block class="Magento\Framework\View\Element\Template" name="catalog.compare.link" before="-" template="Magento_Catalog::product/compare/link.phtml">
                     <arguments>
                         <argument name="jsLayout" xsi:type="array">
                             <item name="components" xsi:type="array">
@@ -21,7 +21,7 @@
                             </item>
                         </argument>
                     </arguments>
-                </block>
+                </block> -->
             </container>
         </referenceContainer>
     </body>

@@ -1,6 +1,22 @@
 CHANGELOG
 =========
 
+4.4.0
+-----
+
+ * added `CheckTypeDeclarationsPass` to check injected parameters type during compilation
+ * added support for opcache.preload by generating a preloading script in the cache folder
+ * added support for dumping the container in one file instead of many files
+ * deprecated support for short factories and short configurators in Yaml
+ * added `tagged_iterator` alias for `tagged` which might be deprecated in a future version
+ * deprecated passing an instance of `Symfony\Component\DependencyInjection\Parameter` as class name to `Symfony\Component\DependencyInjection\Definition`
+ * added support for binding iterable and tagged services
+ * made singly-implemented interfaces detection be scoped by file
+ * added ability to define a static priority method for tagged service
+ * added support for improved syntax to define method calls in Yaml
+ * made the `%env(base64:...)%` processor able to decode base64url
+ * added ability to choose behavior of decorations on non existent decorated services
+
 4.3.0
 -----
 
@@ -120,7 +136,6 @@ CHANGELOG
  * added `TaggedIteratorArgument` with YAML (`!tagged foo`) and XML (`<service type="tagged"/>`) support
  * deprecated `AutowireExceptionPass` and `AutowirePass::getAutowiringExceptions()`, use `Definition::addError()` and the `DefinitionErrorExceptionPass` instead
 
-
 3.3.0
 -----
 
@@ -189,8 +204,8 @@ CHANGELOG
 2.5.0
 -----
 
-* added DecoratorServicePass and a way to override a service definition (Definition::setDecoratedService())
-* deprecated SimpleXMLElement class.
+ * added DecoratorServicePass and a way to override a service definition (Definition::setDecoratedService())
+ * deprecated SimpleXMLElement class.
 
 2.4.0
 -----

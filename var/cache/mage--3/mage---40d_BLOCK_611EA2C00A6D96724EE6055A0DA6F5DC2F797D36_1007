@@ -1,0 +1,29 @@
+a:4:{s:4:"hash";s:0:"";s:5:"mtime";i:1617867372;s:6:"expire";i:1617870972;s:4:"tags";s:118:"40d_BLOCK_HTML,40d_CAT_P_1007,40d_CAT_P,40d_CAT_P_805,40d_CAT_P_806,40d_CAT_P_807,40d_CAT_P_808,40d_CAT_P_804,40d_MAGE";}
+
+            <div class="field configurable required">
+            <label class="label" for="attribute142">
+                <span>Size</span>
+            </label>
+            <div class="control">
+                <select name="super_attribute[142]"
+                        data-selector="super_attribute[142]"
+                        data-validate="{required:true}"
+                        id="attribute142"
+                        class="super-attribute-select">
+                    <option value="">Choose an Option...</option>
+                </select>
+            </div>
+        </div>
+        <script type="text/x-magento-init">
+        {
+            "#product_addtocart_form": {
+                "configurable": {
+                    "spConfig": {"attributes":{"142":{"id":"142","code":"size","label":"Size","options":[{"id":"29","label":"S","products":["805"]},{"id":"30","label":"M","products":["806"]},{"id":"31","label":"L","products":["807"]},{"id":"44","label":"XS","products":["804"]},{"id":"58","label":"XL","products":["808"]}],"position":"0"}},"template":"\u20b9<%- data.price %>","currencyFormat":"\u20b9%s","optionPrices":{"805":{"oldPrice":{"amount":10500},"basePrice":{"amount":10500},"finalPrice":{"amount":10500},"tierPrices":[],"msrpPrice":{"amount":null}},"806":{"oldPrice":{"amount":10500},"basePrice":{"amount":10500},"finalPrice":{"amount":10500},"tierPrices":[],"msrpPrice":{"amount":null}},"807":{"oldPrice":{"amount":10500},"basePrice":{"amount":10500},"finalPrice":{"amount":10500},"tierPrices":[],"msrpPrice":{"amount":null}},"808":{"oldPrice":{"amount":10500},"basePrice":{"amount":10500},"finalPrice":{"amount":10500},"tierPrices":[],"msrpPrice":{"amount":null}},"804":{"oldPrice":{"amount":10500},"basePrice":{"amount":10500},"finalPrice":{"amount":10500},"tierPrices":[],"msrpPrice":{"amount":null}}},"priceFormat":{"pattern":"\u20b9%s","precision":2,"requiredPrecision":2,"decimalSymbol":".","groupSymbol":",","groupLength":3,"integerRequired":false},"prices":{"oldPrice":{"amount":10500},"basePrice":{"amount":10500},"finalPrice":{"amount":10500}},"productId":"1007","chooseText":"Choose an Option...","images":[],"index":{"805":{"142":"29"},"806":{"142":"30"},"807":{"142":"31"},"808":{"142":"58"},"804":{"142":"44"}}},
+                    "gallerySwitchStrategy": "replace"
+                }
+            },
+            "*" : {
+                "Magento_ConfigurableProduct/js/catalog-add-to-cart": {}
+            }
+        }
+    </script>

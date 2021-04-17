@@ -1,7 +1,9 @@
+
 <?php $block->renderFileLessToCss(); ?>
 <header class="header-container">
+<div class="top-head"><marquee behavior="scroll" direction="left">WE SHIP WORLDWIDE. <span style="margin-left:15in;"></span>GET 10% OFF ON FIRST PURCHASE</marquee></div>
 		<div class="header">
-		<div class="row top-head">We Ship Worldwide! Get 10% Off On First Purchase</div>
+		<!--<div class="row top-head">We Ship Worldwide! Get 10% Off On First Purchase</div>-->
 			<div class="row">
 				<div class="col-sm-5 text-left">
 					<?php //echo $this->getChildHtml("megamenu_topnav"); ?>
@@ -55,6 +57,7 @@ require(["jquery"], function($){
 		$(".mobile-bar-close").click(function(){
 			$(".mobile-bar-content").removeClass("open");
 		});
+
 	
 	});
 	
@@ -65,8 +68,9 @@ require(["jquery"], function($){
 		$('.header-container').removeClass("fix-header-container");
 	   }
 	});
+
 });
+
+
 </script>
-
-
 

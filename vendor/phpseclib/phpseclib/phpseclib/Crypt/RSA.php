@@ -182,6 +182,10 @@ class RSA
      * PKCS#8 formatted private key
      */
     const PRIVATE_FORMAT_PKCS8 = 8;
+    /**
+     * OpenSSH formatted private key
+     */
+    const PRIVATE_FORMAT_OPENSSH = 9;
     /**#@-*/
 
     /**#@+
@@ -533,7 +537,7 @@ class RSA
      * @access public
      * @param int $bits
      * @param int $timeout
-     * @param array $p
+     * @param array $partial
      */
     function createKey($bits = 1024, $timeout = false, $partial = array())
     {
@@ -712,7 +716,12 @@ class RSA
      *
      * @access private
      * @see self::setPrivateKeyFormat()
-     * @param string $RSAPrivateKey
+     * @param Math_BigInteger $n
+     * @param Math_BigInteger $e
+     * @param Math_BigInteger $d
+     * @param array<int,Math_BigInteger> $primes
+     * @param array<int,Math_BigInteger> $exponents
+     * @param array<int,Math_BigInteger> $coefficients
      * @return string
      */
     function _convertPrivateKey($n, $e, $d, $primes, $exponents, $coefficients)
@@ -820,6 +829,58 @@ class RSA
                 $key.= 'Private-MAC: ' . bin2hex($hash->hash($source)) . "\r\n";
 
                 return $key;
+            case self::PRIVATE_FORMAT_OPENSSH:
+                if ($num_primes != 2) {
+                    return false;
+                }
+                $publicKey = pack('Na*Na*Na*', strlen('ssh-rsa'), 'ssh-rsa', strlen($raw['publicExponent']), $raw['publicExponent'], strlen($raw['modulus']), $raw['modulus']);
+                $privateKey = pack(
+                    'Na*Na*Na*Na*Na*Na*Na*',
+                    strlen('ssh-rsa'),
+                    'ssh-rsa',
+                    strlen($raw['modulus']),
+                    $raw['modulus'],
+                    strlen($raw['publicExponent']),
+                    $raw['publicExponent'],
+                    strlen($raw['privateExponent']),
+                    $raw['privateExponent'],
+                    strlen($raw['coefficient']),
+                    $raw['coefficient'],
+                    strlen($raw['prime1']),
+                    $raw['prime1'],
+                    strlen($raw['prime2']),
+                    $raw['prime2']
+                );
+                $checkint = Random::string(4);
+                $paddedKey = pack(
+                    'a*Na*',
+                    $checkint . $checkint . $privateKey,
+                    strlen($this->comment),
+                    $this->comment
+                );
+                $paddingLength = (7 * strlen($paddedKey)) % 8;
+                for ($i = 1; $i <= $paddingLength; $i++) {
+                    $paddedKey.= chr($i);
+                }
+                $key = pack(
+                    'Na*Na*Na*NNa*Na*',
+                    strlen('none'),
+                    'none',
+                    strlen('none'),
+                    'none',
+                    0,
+                    '',
+                    1,
+                    strlen($publicKey),
+                    $publicKey,
+                    strlen($paddedKey),
+                    $paddedKey
+                );
+                $key = "openssh-key-v1\0$key";
+
+                return "-----BEGIN OPENSSH PRIVATE KEY-----\r\n" .
+                       chunk_split(base64_encode($key), 70) .
+                       "-----END OPENSSH PRIVATE KEY-----";
             default: // eg. self::PRIVATE_FORMAT_PKCS1
                 $components = array();
                 foreach ($raw as $name => $value) {
@@ -941,8 +1002,9 @@ class RSA
      *
      * @access private
      * @see self::setPublicKeyFormat()
-     * @param string $RSAPrivateKey
-     * @return string
+     * @param Math_BigInteger $n
+     * @param Math_BigInteger $e
+     * @return string|array<string,Math_BigInteger>
      */
     function _convertPublicKey($n, $e)
     {
@@ -1413,7 +1475,78 @@ class RSA
                 $components['coefficients'] = array(2 => new BigInteger($this->_string_shift($private, $length), -256));
 
                 return $components;
+            case self::PRIVATE_FORMAT_OPENSSH:
+                $components = array();
+                $decoded = $this->_extractBER($key);
+                $magic = $this->_string_shift($decoded, 15);
+                if ($magic !== "openssh-key-v1\0") {
+                    return false;
+                }
+                $options = $this->_string_shift($decoded, 24);
+                // \0\0\0\4none = ciphername
+                // \0\0\0\4none = kdfname
+                // \0\0\0\0 = kdfoptions
+                // \0\0\0\1 = numkeys
+                if ($options != "\0\0\0\4none\0\0\0\4none\0\0\0\0\0\0\0\1") {
+                    return false;
+                }
+                extract(unpack('Nlength', $this->_string_shift($decoded, 4)));
+                if (strlen($decoded) < $length) {
+                    return false;
+                }
+                $publicKey = $this->_string_shift($decoded, $length);
+                extract(unpack('Nlength', $this->_string_shift($decoded, 4)));
+                if (strlen($decoded) < $length) {
+                    return false;
+                }
+                $paddedKey = $this->_string_shift($decoded, $length);
+
+                if ($this->_string_shift($publicKey, 11) !== "\0\0\0\7ssh-rsa") {
+                    return false;
+                }
+
+                $checkint1 = $this->_string_shift($paddedKey, 4);
+                $checkint2 = $this->_string_shift($paddedKey, 4);
+                if (strlen($checkint1) != 4 || $checkint1 !== $checkint2) {
+                    return false;
+                }
+
+                if ($this->_string_shift($paddedKey, 11) !== "\0\0\0\7ssh-rsa") {
+                    return false;
+                }
+
+                $values = array(
+                    &$components['modulus'],
+                    &$components['publicExponent'],
+                    &$components['privateExponent'],
+                    &$components['coefficients'][2],
+                    &$components['primes'][1],
+                    &$components['primes'][2]
+                );
+
+                foreach ($values as &$value) {
+                    extract(unpack('Nlength', $this->_string_shift($paddedKey, 4)));
+                    if (strlen($paddedKey) < $length) {
+                        return false;
+                    }
+                    $value = new BigInteger($this->_string_shift($paddedKey, $length), -256);
+                }
+
+                extract(unpack('Nlength', $this->_string_shift($paddedKey, 4)));
+                if (strlen($paddedKey) < $length) {
+                    return false;
+                }
+                $components['comment'] = $this->_string_shift($decoded, $length);
+
+                $temp = $components['primes'][1]->subtract($this->one);
+                $components['exponents'] = array(1 => $components['publicExponent']->modInverse($temp));
+                $temp = $components['primes'][2]->subtract($this->one);
+                $components['exponents'][] = $components['publicExponent']->modInverse($temp);
+
+                return $components;
         }
+
+        return false;
     }
 
     /**
@@ -1569,7 +1702,8 @@ class RSA
                 self::PRIVATE_FORMAT_PKCS1,
                 self::PRIVATE_FORMAT_XML,
                 self::PRIVATE_FORMAT_PUTTY,
-                self::PUBLIC_FORMAT_OPENSSH
+                self::PUBLIC_FORMAT_OPENSSH,
+                self::PRIVATE_FORMAT_OPENSSH
             );
             foreach ($types as $type) {
                 $components = $this->_parseKey($key, $type);
@@ -1752,7 +1886,6 @@ class RSA
      *
      * @see self::getPublicKey()
      * @access public
-     * @param string $key
      * @param int $type optional
      */
     function getPublicKey($type = self::PUBLIC_FORMAT_PKCS8)
@@ -1810,7 +1943,6 @@ class RSA
      *
      * @see self::getPublicKey()
      * @access public
-     * @param string $key
      * @param int $type optional
      * @return mixed
      */
@@ -1835,8 +1967,7 @@ class RSA
      *
      * @see self::getPrivateKey()
      * @access private
-     * @param string $key
-     * @param int $type optional
+     * @param int $mode optional
      */
     function _getPrivatePublicKey($mode = self::PUBLIC_FORMAT_PKCS8)
     {
@@ -2053,7 +2184,7 @@ class RSA
      *    of the hash function Hash) and 0.
      *
      * @access public
-     * @param int $format
+     * @param int $sLen
      */
     function setSaltLength($sLen)
     {
@@ -2086,7 +2217,7 @@ class RSA
      * See {@link http://tools.ietf.org/html/rfc3447#section-4.2 RFC3447#section-4.2}.
      *
      * @access private
-     * @param string $x
+     * @param int|string|resource $x
      * @return \phpseclib\Math\BigInteger
      */
     function _os2ip($x)
@@ -2313,7 +2444,7 @@ class RSA
      *
      * @access private
      * @param string $mgfSeed
-     * @param int $mgfLen
+     * @param int $maskLen
      * @return string
      */
     function _mgf1($mgfSeed, $maskLen)
@@ -2636,7 +2767,7 @@ class RSA
         // if $m is larger than two million terrabytes and you're using sha1, PKCS#1 suggests a "Label too long" error
         // be output.
 
-        $emLen = ($emBits + 1) >> 3; // ie. ceil($emBits / 8);
+        $emLen = ($emBits + 7) >> 3; // ie. ceil($emBits / 8);
         $sLen = $this->sLen !== null ? $this->sLen : $this->hLen;
 
         $mHash = $this->hash->hash($m);
@@ -2714,7 +2845,7 @@ class RSA
 
         // RSA verification
 
-        $modBits = 8 * $this->k;
+        $modBits = strlen($this->modulus->toBits());
 
         $s2 = $this->_os2ip($s);
         $m2 = $this->_rsavp1($s2);
@@ -2722,7 +2853,7 @@ class RSA
             user_error('Invalid signature');
             return false;
         }
-        $em = $this->_i2osp($m2, $modBits >> 3);
+        $em = $this->_i2osp($m2, $this->k);
         if ($em === false) {
             user_error('Invalid signature');
             return false;
@@ -2822,6 +2953,7 @@ class RSA
      *
      * @access private
      * @param string $m
+     * @param string $s
      * @return string
      */
     function _rsassa_pkcs1_v1_5_verify($m, $s)
@@ -2962,7 +3094,7 @@ class RSA
      *
      * @see self::encrypt()
      * @access public
-     * @param string $plaintext
+     * @param string $ciphertext
      * @return string
      */
     function decrypt($ciphertext)

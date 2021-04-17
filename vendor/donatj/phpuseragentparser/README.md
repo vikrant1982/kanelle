@@ -86,6 +86,7 @@ array(
 	- BlackBerry
 	- Playbook
 	- Tizen
+	- Sailfish OS
 - Console
 	- Oculus
 	- Nintendo 3DS
@@ -106,7 +107,7 @@ array(
 - Kindle / Silk
 - Firefox / IceWeasel / IceCat
 - Safari
-- Internet Explorer
+- Internet Explorer / Edge
 - IEMobile
 - Chrome / HeadlessChrome
 - Yandex Browser
@@ -116,6 +117,8 @@ array(
 - TizenBrowser
 - OculusBrowser
 - SamsungBrowser
+- Sailfish Browser
+- Miui Browser
 - UC Browser
 - Lynx
 - Wget

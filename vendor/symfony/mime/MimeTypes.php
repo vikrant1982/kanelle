@@ -33,8 +33,6 @@ use Symfony\Component\Mime\Exception\LogicException;
  *     $guesser->registerGuesser(new FileinfoMimeTypeGuesser('/path/to/magic/file'));
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @experimental in 4.3
  */
 final class MimeTypes implements MimeTypesInterface
 {
@@ -53,7 +51,7 @@ final class MimeTypes implements MimeTypesInterface
             $this->extensions[$mimeType] = $extensions;
 
             foreach ($extensions as $extension) {
-                $this->mimeTypes[$extension] = $mimeType;
+                $this->mimeTypes[$extension][] = $mimeType;
             }
         }
         $this->registerGuesser(new FileBinaryMimeTypeGuesser());
@@ -89,7 +87,7 @@ final class MimeTypes implements MimeTypesInterface
             $extensions = $this->extensions[$mimeType] ?? $this->extensions[$lcMimeType = strtolower($mimeType)] ?? null;
         }
 
-        return $extensions ?? self::$map[$mimeType] ?? self::$map[$lcMimeType ?? strtolower($mimeType)] ?? [];
+        return $extensions ?? self::MAP[$mimeType] ?? self::MAP[$lcMimeType ?? strtolower($mimeType)] ?? [];
     }
 
     /**
@@ -101,7 +99,7 @@ final class MimeTypes implements MimeTypesInterface
             $mimeTypes = $this->mimeTypes[$ext] ?? $this->mimeTypes[$lcExt = strtolower($ext)] ?? null;
         }
 
-        return $mimeTypes ?? self::$reverseMap[$ext] ?? self::$reverseMap[$lcExt ?? strtolower($ext)] ?? [];
+        return $mimeTypes ?? self::REVERSE_MAP[$ext] ?? self::REVERSE_MAP[$lcExt ?? strtolower($ext)] ?? [];
     }
 
     /**
@@ -139,7 +137,7 @@ final class MimeTypes implements MimeTypesInterface
         }
 
         if (!$this->isGuesserSupported()) {
-            throw new LogicException('Unable to guess the MIME type as no guessers are available (have you enable the php_fileinfo extension?).');
+            throw new LogicException('Unable to guess the MIME type as no guessers are available (have you enabled the php_fileinfo extension?).');
         }
 
         return null;
@@ -152,7 +150,7 @@ final class MimeTypes implements MimeTypesInterface
      *
      * @see Resources/bin/update_mime_types.php
      */
-    private static $map = [
+    private const MAP = [
         'application/acrobat' => ['pdf'],
         'application/andrew-inset' => ['ez'],
         'application/annodex' => ['anx'],
@@ -168,6 +166,7 @@ final class MimeTypes implements MimeTypesInterface
         'application/cdmi-queue' => ['cdmiq'],
         'application/cdr' => ['cdr'],
         'application/coreldraw' => ['cdr'],
+        'application/csv' => ['csv'],
         'application/cu-seeme' => ['cu'],
         'application/davmount+xml' => ['davmount'],
         'application/dbase' => ['dbf'],
@@ -1115,7 +1114,7 @@ final class MimeTypes implements MimeTypesInterface
         'audio/mp2' => ['mp2'],
         'audio/mp3' => ['mp3', 'mpga'],
         'audio/mp4' => ['m4a', 'mp4a', 'f4a'],
-        'audio/mpeg' => ['mpga', 'mp2', 'mp2a', 'mp3', 'm2a', 'm3a'],
+        'audio/mpeg' => ['mp3', 'mpga', 'mp2', 'mp2a', 'm2a', 'm3a'],
         'audio/mpegurl' => ['m3u', 'm3u8', 'vlc'],
         'audio/ogg' => ['oga', 'ogg', 'spx', 'opus'],
         'audio/prs.sid' => ['sid', 'psid'],
@@ -1253,6 +1252,7 @@ final class MimeTypes implements MimeTypesInterface
         'image/psd' => ['psd'],
         'image/rle' => ['rle'],
         'image/sgi' => ['sgi'],
+        'image/svg' => ['svg'],
         'image/svg+xml' => ['svg', 'svgz'],
         'image/svg+xml-compressed' => ['svgz'],
         'image/tiff' => ['tiff', 'tif'],
@@ -1611,7 +1611,7 @@ final class MimeTypes implements MimeTypesInterface
         'zz-application/zz-winassoc-xls' => ['xls', 'xlc', 'xll', 'xlm', 'xlw', 'xla', 'xlt', 'xld'],
     ];
 
-    private static $reverseMap = [
+    private const REVERSE_MAP = [
         '32x' => ['application/x-genesis-32x-rom'],
         '3dml' => ['text/vnd.in3d.3dml'],
         '3ds' => ['image/x-3ds'],
@@ -1818,7 +1818,7 @@ final class MimeTypes implements MimeTypesInterface
         'csp' => ['application/vnd.commonspace'],
         'css' => ['text/css'],
         'cst' => ['application/x-director'],
-        'csv' => ['text/csv', 'text/x-comma-separated-values', 'text/x-csv'],
+        'csv' => ['text/csv', 'text/x-comma-separated-values', 'text/x-csv', 'application/csv'],
         'csvs' => ['text/csv-schema'],
         'cu' => ['application/cu-seeme'],
         'cue' => ['application/x-cue'],
@@ -2433,12 +2433,12 @@ final class MimeTypes implements MimeTypesInterface
         'odc' => ['application/vnd.oasis.opendocument.chart'],
         'odf' => ['application/vnd.oasis.opendocument.formula'],
         'odft' => ['application/vnd.oasis.opendocument.formula-template'],
-        'odg' => ['vnd.oasis.opendocument.graphics', 'application/vnd.oasis.opendocument.graphics'],
+        'odg' => ['application/vnd.oasis.opendocument.graphics'],
         'odi' => ['application/vnd.oasis.opendocument.image'],
         'odm' => ['application/vnd.oasis.opendocument.text-master'],
-        'odp' => ['vnd.oasis.opendocument.presentation', 'application/vnd.oasis.opendocument.presentation'],
-        'ods' => ['vnd.oasis.opendocument.spreadsheet', 'application/vnd.oasis.opendocument.spreadsheet'],
-        'odt' => ['vnd.oasis.opendocument.text', 'application/vnd.oasis.opendocument.text'],
+        'odp' => ['application/vnd.oasis.opendocument.presentation'],
+        'ods' => ['application/vnd.oasis.opendocument.spreadsheet'],
+        'odt' => ['application/vnd.oasis.opendocument.text'],
         'oga' => ['audio/ogg', 'audio/vorbis', 'audio/x-flac+ogg', 'audio/x-ogg', 'audio/x-oggflac', 'audio/x-speex+ogg', 'audio/x-vorbis', 'audio/x-vorbis+ogg'],
         'ogg' => ['audio/ogg', 'audio/vorbis', 'audio/x-flac+ogg', 'audio/x-ogg', 'audio/x-oggflac', 'audio/x-speex+ogg', 'audio/x-vorbis', 'audio/x-vorbis+ogg', 'video/ogg', 'video/x-ogg', 'video/x-theora', 'video/x-theora+ogg'],
         'ogm' => ['video/x-ogm', 'video/x-ogm+ogg'],
@@ -2810,7 +2810,7 @@ final class MimeTypes implements MimeTypesInterface
         'sv4crc' => ['application/x-sv4crc'],
         'svc' => ['application/vnd.dvb.service'],
         'svd' => ['application/vnd.svd'],
-        'svg' => ['image/svg+xml'],
+        'svg' => ['image/svg+xml', 'image/svg'],
         'svgz' => ['image/svg+xml', 'image/svg+xml-compressed'],
         'svh' => ['text/x-svhdr'],
         'swa' => ['application/x-director'],

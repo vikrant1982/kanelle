@@ -48,6 +48,7 @@ class RunScriptCommand extends BaseCommand
     {
         $this
             ->setName('run-script')
+            ->setAliases(array('run'))
             ->setDescription('Runs the scripts defined in composer.json.')
             ->setDefinition(array(
                 new InputArgument('script', InputArgument::OPTIONAL, 'Script name to run.'),
@@ -132,7 +133,11 @@ EOT
         $renderer = new Table($output);
         $renderer->setStyle('compact');
         $rendererStyle = $renderer->getStyle();
-        $rendererStyle->setVerticalBorderChar('');
+        if (method_exists($rendererStyle, 'setVerticalBorderChars')) {
+            $rendererStyle->setVerticalBorderChars('');
+        } else {
+            $rendererStyle->setVerticalBorderChar('');
+        }
         $rendererStyle->setCellRowContentFormat('%s  ');
         $renderer->setRows($table)->render();
 

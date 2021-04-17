@@ -87,7 +87,6 @@ class HttpCurl implements HttpCurlInterface
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
         curl_setopt($ch, CURLOPT_HEADER, false);
-        
         $response = $this->execute($ch);
         return $response;
     }
@@ -103,7 +102,7 @@ class HttpCurl implements HttpCurlInterface
 
         // Setting the HTTP header with the Access Token only for Getting user info
         if ($this->header) {
-            $this->headerArray[] = 'Authorization: bearer ' . $this->accessToken;
+            $this->headerArray[] = 'x-amz-access-token : ' . $this->accessToken;
         }
 
         $response = $this->execute($ch);

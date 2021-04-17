@@ -1,0 +1,16 @@
+<div class="footer-container"><div class="footer-top1"><div class="ma-category"><?php echo $block->getLayout()->createBlock('Magento\Newsletter\Block\Subscribe')->setTemplate('Magento_Newsletter::subscribe.phtml')->toHtml();?> <?php ?></div></div><div class="footer-top"><div class="ma-category"><div class="row"><?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_top')->toHtml();?></div></div></div><div class="footer-bottom"><div class="ma-category"><?php echo $this->getChildHtml('copyright')?> <div class="link-payment"><?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('link_payment')->toHtml();?></div><?php echo $this->getChildHtml("store_switcher"); ?></div><div id="back_top"><a href="#back-top"><span>>top</span></a></div></div></div><script type="text/javascript">
+			
+	require(["jquery"], function($){
+
+	   $(window).scroll(function() {
+			if($(this).scrollTop() > 300) {
+				$('#back_top').fadeIn();   
+			} else {
+				$('#back_top').fadeOut();
+			}
+		});
+		   $('#back_top').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+		}); 
+	   
+	});</script>

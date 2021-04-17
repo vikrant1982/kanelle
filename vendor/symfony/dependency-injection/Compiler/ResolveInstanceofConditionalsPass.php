@@ -35,16 +35,26 @@ class ResolveInstanceofConditionalsPass implements CompilerPassInterface
             }
         }
 
+        $tagsToKeep = [];
+
+        if ($container->hasParameter('container.behavior_describing_tags')) {
+            $tagsToKeep = $container->getParameter('container.behavior_describing_tags');
+        }
+
         foreach ($container->getDefinitions() as $id => $definition) {
             if ($definition instanceof ChildDefinition) {
                 // don't apply "instanceof" to children: it will be applied to their parent
                 continue;
             }
-            $container->setDefinition($id, $this->processDefinition($container, $id, $definition));
+            $container->setDefinition($id, $this->processDefinition($container, $id, $definition, $tagsToKeep));
+        }
+
+        if ($container->hasParameter('container.behavior_describing_tags')) {
+            $container->getParameterBag()->remove('container.behavior_describing_tags');
         }
     }
 
-    private function processDefinition(ContainerBuilder $container, $id, Definition $definition)
+    private function processDefinition(ContainerBuilder $container, string $id, Definition $definition, array $tagsToKeep): Definition
     {
         $instanceofConditionals = $definition->getInstanceofConditionals();
         $autoconfiguredInstanceof = $definition->isAutoconfigured() ? $container->getAutoconfiguredInstanceof() : [];
@@ -63,9 +73,10 @@ class ResolveInstanceofConditionalsPass implements CompilerPassInterface
         $instanceofTags = [];
         $instanceofCalls = [];
         $instanceofBindings = [];
+        $reflectionClass = null;
 
         foreach ($conditionals as $interface => $instanceofDefs) {
-            if ($interface !== $class && (!$container->getReflectionClass($class, false))) {
+            if ($interface !== $class && !($reflectionClass ?? $reflectionClass = $container->getReflectionClass($class, false) ?: false)) {
                 continue;
             }
 
@@ -114,10 +125,10 @@ class ResolveInstanceofConditionalsPass implements CompilerPassInterface
             }
 
             // Don't add tags to service decorators
-            if (null === $definition->getDecoratedService()) {
-                $i = \count($instanceofTags);
-                while (0 <= --$i) {
-                    foreach ($instanceofTags[$i] as $k => $v) {
+            $i = \count($instanceofTags);
+            while (0 <= --$i) {
+                foreach ($instanceofTags[$i] as $k => $v) {
+                    if (null === $definition->getDecoratedService() || \in_array($k, $tagsToKeep, true)) {
                         foreach ($v as $v) {
                             if ($definition->hasTag($k) && \in_array($v, $definition->getTag($k))) {
                                 continue;
@@ -144,7 +155,7 @@ class ResolveInstanceofConditionalsPass implements CompilerPassInterface
         return $definition;
     }
 
-    private function mergeConditionals(array $autoconfiguredInstanceof, array $instanceofConditionals, ContainerBuilder $container)
+    private function mergeConditionals(array $autoconfiguredInstanceof, array $instanceofConditionals, ContainerBuilder $container): array
     {
         // make each value an array of ChildDefinition
         $conditionals = array_map(function ($childDef) { return [$childDef]; }, $autoconfiguredInstanceof);

@@ -23,7 +23,7 @@ final class Inflector
      *
      * @see http://english-zone.com/spelling/plurals.html
      */
-    private static $pluralMap = [
+    private const PLURAL_MAP = [
         // First entry: plural suffix, reversed
         // Second entry: length of plural suffix
         // Third entry: Whether the suffix may succeed a vocal
@@ -120,6 +120,9 @@ final class Inflector
         // bureaus (bureau)
         ['suae', 4, false, true, 'eau'],
 
+        // fees (fee), trees (tree), employees (employee)
+        ['see', 3, true, true, 'ee'],
+
         // roses (rose), garages (garage), cassettes (cassette),
         // waltzes (waltz), heroes (hero), bushes (bush), arches (arch),
         // shoes (shoe)
@@ -140,7 +143,7 @@ final class Inflector
      *
      * @see http://english-zone.com/spelling/plurals.html
      */
-    private static $singularMap = [
+    private const SINGULAR_MAP = [
         // First entry: singular suffix, reversed
         // Second entry: length of singular suffix
         // Third entry: Whether the suffix may succeed a vocal
@@ -228,6 +231,12 @@ final class Inflector
         // bacteria (bacterium), criteria (criterion), phenomena (phenomenon)
         ['noi', 3, true, true, 'ions'],
 
+        // coupon (coupons)
+        ['nop', 3, true, true, 'pons'],
+
+        // seasons (season), treasons (treason), poisons (poison), lessons (lesson)
+        ['nos', 3, true, true, 'sons'],
+
         // bacteria (bacterium), criteria (criterion), phenomena (phenomenon)
         ['no', 2, true, true, 'a'],
 
@@ -281,6 +290,9 @@ final class Inflector
         // indices (index)
         ['xedni', 5, false, true, ['indicies', 'indexes']],
 
+        // boxes (box)
+        ['xo', 2, false, true, 'oxes'],
+
         // indexes (index), matrixes (matrix)
         ['x', 1, true, false, ['cies', 'xes']],
 
@@ -300,7 +312,8 @@ final class Inflector
     /**
      * A list of words which should not be inflected, reversed.
      */
-    private static $uninflected = [
+    private const UNINFLECTED = [
+        '',
         'atad',
         'reed',
         'kcabdeef',
@@ -309,6 +322,7 @@ final class Inflector
         'esoom',
         'seires',
         'peehs',
+        'seiceps',
     ];
 
     /**
@@ -335,7 +349,7 @@ final class Inflector
         $pluralLength = \strlen($lowerPluralRev);
 
         // Check if the word is one which is not inflected, return early if so
-        if (\in_array($lowerPluralRev, self::$uninflected, true)) {
+        if (\in_array($lowerPluralRev, self::UNINFLECTED, true)) {
             return $plural;
         }
 
@@ -343,7 +357,7 @@ final class Inflector
         // The inner loop $j iterates over the characters of the plural suffix
         // in the plural table to compare them with the characters of the actual
         // given plural suffix
-        foreach (self::$pluralMap as $map) {
+        foreach (self::PLURAL_MAP as $map) {
             $suffix = $map[0];
             $suffixLength = $map[1];
             $j = 0;
@@ -421,7 +435,7 @@ final class Inflector
         $singularLength = \strlen($lowerSingularRev);
 
         // Check if the word is one which is not inflected, return early if so
-        if (\in_array($lowerSingularRev, self::$uninflected, true)) {
+        if (\in_array($lowerSingularRev, self::UNINFLECTED, true)) {
             return $singular;
         }
 
@@ -429,7 +443,7 @@ final class Inflector
         // The inner loop $j iterates over the characters of the singular suffix
         // in the singular table to compare them with the characters of the actual
         // given singular suffix
-        foreach (self::$singularMap as $map) {
+        foreach (self::SINGULAR_MAP as $map) {
             $suffix = $map[0];
             $suffixLength = $map[1];
             $j = 0;

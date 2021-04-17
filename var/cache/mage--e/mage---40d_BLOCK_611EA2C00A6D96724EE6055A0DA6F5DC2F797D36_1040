@@ -1,0 +1,29 @@
+a:4:{s:4:"hash";s:0:"";s:5:"mtime";i:1617882958;s:6:"expire";i:1617886558;s:4:"tags";s:90:"40d_BLOCK_HTML,40d_CAT_P_1040,40d_CAT_P,40d_CAT_P_701,40d_CAT_P_702,40d_CAT_P_703,40d_MAGE";}
+
+            <div class="field configurable required">
+            <label class="label" for="attribute142">
+                <span>Size</span>
+            </label>
+            <div class="control">
+                <select name="super_attribute[142]"
+                        data-selector="super_attribute[142]"
+                        data-validate="{required:true}"
+                        id="attribute142"
+                        class="super-attribute-select">
+                    <option value="">Choose an Option...</option>
+                </select>
+            </div>
+        </div>
+        <script type="text/x-magento-init">
+        {
+            "#product_addtocart_form": {
+                "configurable": {
+                    "spConfig": {"attributes":{"142":{"id":"142","code":"size","label":"Size","options":[{"id":"29","label":"S","products":["701"]},{"id":"30","label":"M","products":[]},{"id":"31","label":"L","products":["703"]}],"position":"0"}},"template":"\u20b9<%- data.price %>","currencyFormat":"\u20b9%s","optionPrices":{"701":{"oldPrice":{"amount":6500},"basePrice":{"amount":6500},"finalPrice":{"amount":6500},"tierPrices":[],"msrpPrice":{"amount":null}},"703":{"oldPrice":{"amount":6500},"basePrice":{"amount":6500},"finalPrice":{"amount":6500},"tierPrices":[],"msrpPrice":{"amount":null}}},"priceFormat":{"pattern":"\u20b9%s","precision":2,"requiredPrecision":2,"decimalSymbol":".","groupSymbol":",","groupLength":3,"integerRequired":false},"prices":{"oldPrice":{"amount":6500},"basePrice":{"amount":6500},"finalPrice":{"amount":6500}},"productId":"1040","chooseText":"Choose an Option...","images":[],"index":{"701":{"142":"29"},"703":{"142":"31"}}},
+                    "gallerySwitchStrategy": "replace"
+                }
+            },
+            "*" : {
+                "Magento_ConfigurableProduct/js/catalog-add-to-cart": {}
+            }
+        }
+    </script>

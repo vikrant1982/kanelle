@@ -40,7 +40,6 @@ class Bestsellerproduct extends \Magento\Catalog\Block\Product\AbstractProduct
 	protected $productFactory;
 	protected $connection;
 	protected $resource;
-	protected $_categoryFactory;
 	
     /**
      * @param Context $context
@@ -56,7 +55,6 @@ class Bestsellerproduct extends \Magento\Catalog\Block\Product\AbstractProduct
 			\Magento\Framework\App\Http\Context $httpContext,
 			  \Magento\Catalog\Model\ProductFactory $productFactory,
 				\Magento\Sales\Model\ResourceModel\Report\Bestsellers\CollectionFactory $collectionFactory,
-				\Magento\Catalog\Model\CategoryFactory $categoryFactory,
 				 ResourceConnection $resource,
 			array $data = []
 		) {
@@ -67,7 +65,6 @@ class Bestsellerproduct extends \Magento\Catalog\Block\Product\AbstractProduct
 			 $this->_collectionFactory = $collectionFactory;
 			 $this->resource = $resource;
 			$this->connection = $resource->getConnection();
-			$this->_categoryFactory = $categoryFactory;
 			parent::__construct(
 				$context,
 				$data
@@ -98,12 +95,8 @@ class Bestsellerproduct extends \Magento\Catalog\Block\Product\AbstractProduct
 		
 		 public function getBestsellerProduct()
 			{
-				$id = $this->_storeManager->getStore()->getRootCategoryId();
-				$_category =  $this->_categoryFactory->create()->load($id);
-				$children_category = explode(",", $_category->getChildren());
-				$id = $children_category[0];
 				
-				$qty = $this->getConfig('qty');
+				$qty = $this->getConfig('qty'); 
 			    $select = $this->connection->select()
 					 ->from($this->resource->getTableName('sales_order_item'), 'product_id')
 					 ->order('sum(`qty_ordered`) Desc')
@@ -115,21 +108,14 @@ class Bestsellerproduct extends \Magento\Catalog\Block\Product\AbstractProduct
 				   }
 				  
 				$products = array();
-				$i = 1;
 				foreach($producIds as $product_id) {
 					$product = $this->productFactory->create()->load($product_id);
 						if($product->getVisibility() == 2||$product->getVisibility() == 3||$product->getVisibility() == 4)
 						// $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
-						// $logger = new \Zend\Log\Logger();
+						 //$logger = new \Zend\Log\Logger();
 						// $logger->addWriter($writer);
 						// $logger->info($product);
-						if(in_array($id, $product->getCategoryIds()))
-						{
-							$products[] = $product;	
-							if($i > $qty)
-								return $products;
-							$i++;
-						}
+						$products[] = $product;	
 					
 				}
 			if(count($products)>=1)

@@ -1,0 +1,2 @@
+a:4:{s:4:"hash";s:0:"";s:5:"mtime";i:1617867644;s:6:"expire";i:1617954044;s:4:"tags";s:38:"40d_CAT_C,40d_COLLECTION_DATA,40d_MAGE";}
+[{"entity_id":"30","attribute_set_id":"3","parent_id":"2","created_at":"2021-03-22 06:14:29","updated_at":"2021-04-04 01:41:56","path":"1\/2\/30","position":"3","level":"2","children_count":"12","is_active":"1"},{"entity_id":"36","attribute_set_id":"3","parent_id":"30","created_at":"2021-03-30 13:38:53","updated_at":"2021-04-03 07:57:13","path":"1\/2\/30\/36","position":"4","level":"3","children_count":"0","is_active":"1"}]

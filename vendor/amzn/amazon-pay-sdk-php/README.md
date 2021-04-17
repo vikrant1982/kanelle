@@ -20,9 +20,6 @@ Integration steps can be found below:
  * [US](https://pay.amazon.com/us/developer/documentation)
  * [UK](https://pay.amazon.com/uk/developer/documentation)
  * [DE](https://pay.amazon.com/de/developer/documentation)
- * [FR](https://pay.amazon.com/fr/developer/documentation)
- * [IT](https://pay.amazon.com/it/developer/documentation)
- * [ES](https://pay.amazon.com/es/developer/documentation)
  * [JP](https://pay.amazon.com/jp/developer/documentation)
 
 ## Sample
@@ -302,7 +299,7 @@ See the [API Response](https://github.com/amzn/amazon-pay-sdk-php#api-response) 
 ### IPN Handling
 
 1. To receive IPN's successfully you will need an valid SSL on your domain.
-2. You can set up your Notification endpoints in Seller Central by accessing the Integration Settings page in the Settings tab.
+2. You can set up your Notification endpoints by either (a) using the Seller Central Integration Settings page Settings tab, or (b) by using the SetMerchantNotificationConfiguration API call.
 3. IpnHandler.php class handles verification of the source and the data of the IPN
 
 Add the below code into any file and set the URL to the file location in Merchant/Integrator URL by accessing Integration Settings page in the Settings tab.
@@ -322,6 +319,34 @@ $ipnHandler = new IpnHandler($headers, $body);
 
 ```
 See the [IPN Response](https://github.com/amzn/amazon-pay-sdk-php#ipn-response) section for information on parsing the IPN response.
+
+#### Setting notification endpoints using SetMerchantNotificationConfiguration API
+
+```php
+$client = new AmazonPay\Client($config);
+
+// possible array values: ALL, ORDER_REFERENCE, PAYMENT_AUTHORIZE, PAYMENT_CAPTURE, PAYMENT_REFUND, BILLING_AGREEMENT, CHARGEBACK_DETAILED
+$notificationConfiguration['https://dev.null/ipn/onetime'] = array('ORDER_REFERENCE', 'PAYMENT_AUTHORIZE', 'PAYMENT_CAPTURE');
+$notificationConfiguration['https://dev.null/ipn/recurring'] = array('BILLING_AGREEMENT');
+$notificationConfiguration['https://dev.null/ipn/refunds'] = array('PAYMENT_REFUND', 'CHARGEBACK_DETAILED');
+$requestParameters['notification_configuration_list'] = $notificationConfiguration;
+
+// or, if you prefer all IPNs come to the same endpoint, do this one-liner instead:
+// $requestParameters['notification_configuration_list'] = array('https://dev.null/ipn' => array('ALL'));
+
+// if you are calling on behalf of another merhcant using delegated access, be sure to set the merchant ID and auth token:
+// $requestParameters['merchant_id'] = 'THE_MERCHANT_ID';
+// $requestParameters['mws_auth_token'] = 'THE_MWS_AUTH_TOKEN';
+
+$response = $client->setMerchantNotificationConfiguration($requestParameters);
+if ($response->toArray()['ResponseStatus'] !== '200') {
+    print "error occured calling API";
+}
+
+// to troubleshoot, you can call GetMerchantNotificationConfiguration to view current IPN settings
+$response = $client->getMerchantNotificationConfiguration($requestParameters);
+print $response->toXml();
+```
 
 ### Convenience Methods
 
@@ -362,6 +387,7 @@ and the amount captured by making the `capture` API call after the shipment is c
 | Platform ID         	     | `platform_id`         	    | no        | Platform ID of the Solution provider                                                                      |
 | Custom Information  	     | `custom_information`  	    | no        | Any custom string                                                                                         |
 | MWS Auth Token      	     | `mws_auth_token`      	    | no        | MWS Auth Token required if API call is made on behalf of the seller                                       |
+| ExpectImmediateAuthorization      	     | `expect_immediate_authorization`      	    | no        | Setting value to true, will make OrderReferenceObject to be closed automatically in case no authorization is triggered within 60 minutes                                      |
 
 ```php
 // Create an array that will contain the parameters for the charge API call

@@ -3,7 +3,7 @@
 You've already learned how to use the command-line interface to do some
 things. This chapter documents all the available commands.
 
-To get help from the command-line, simply call `composer` or `composer list`
+To get help from the command-line, call `composer` or `composer list`
 to see the complete list of commands, then `--help` combined with any of those
 can give you more information.
 
@@ -22,6 +22,8 @@ The following options are available with every command:
 * **--quiet (-q):** Do not output any message.
 * **--no-interaction (-n):** Do not ask any interactive question.
 * **--no-plugins:** Disables plugins.
+* **--no-cache:** Disables the use of the cache directory. Same as setting the COMPOSER_CACHE_DIR
+  env var to /dev/null (or NUL on Windows).
 * **--working-dir (-d):** If specified, use the given directory as working directory.
 * **--profile:** Display timing and memory usage information
 * **--ansi:** Force ANSI output.
@@ -37,8 +39,7 @@ The following options are available with every command:
 ## init
 
 In the [Libraries](02-libraries.md) chapter we looked at how to create a
-`composer.json` by hand. There is also an `init` command available that makes
-it a bit easier to do this.
+`composer.json` by hand. There is also an `init` command available to do this.
 
 When you run the command it will interactively ask you to fill in the fields,
 while using some smart defaults.
@@ -155,8 +156,8 @@ php composer.phar update "vendor/*"
 * **--no-progress:** Removes the progress display that can mess with some
   terminals or scripts which don't handle backspace characters.
 * **--no-suggest:** Skips suggested packages in the output.
-* **--with-dependencies:** Add also dependencies of whitelisted packages to the whitelist, except those that are root requirements.
-* **--with-all-dependencies:** Add also all dependencies of whitelisted packages to the whitelist, including those that are root requirements.
+* **--with-dependencies:** Add also dependencies of allowed packages to the allow list, except those that are root requirements.
+* **--with-all-dependencies:** Add also all dependencies of allowed packages to the allow list, including those that are root requirements.
 * **--optimize-autoloader (-o):** Convert PSR-0/4 autoloading to classmap to get a faster
   autoloader. This is recommended especially for production, but can take
   a bit of time to run so it is currently not done by default.
@@ -171,6 +172,8 @@ php composer.phar update "vendor/*"
   versions of requirements, generally used with `--prefer-stable`.
 * **--interactive:** Interactive interface with autocompletion to select the packages to update.
 * **--root-reqs:** Restricts the update to your first degree dependencies.
+
+Specifying one of the words `mirrors`, `lock`, or `nothing` as an argument has the same effect as specifying the option `--lock`, for example `composer update mirrors` is exactly the same as `composer update --lock`.
 
 ## require
 
@@ -188,7 +191,7 @@ If you do not want to choose requirements interactively, you can pass them
 to the command.
 
 ```sh
-php composer.phar require vendor/package:2.* vendor/package2:dev-master
+php composer.phar require "vendor/package:2.*" vendor/package2:dev-master
 ```
 
 If you do not specify a package, composer will prompt you to search for a package, and given results, provide a list of  matches to require.
@@ -257,6 +260,10 @@ match the platform requirements of the installed packages. This can be used
 to verify that a production server has all the extensions needed to run a
 project after installing it for example.
 
+Unlike update/install, this command will ignore config.platform settings and
+check the real platform packages so you can be certain you have the required
+platform dependencies.
+
 ## global
 
 The global command allows you to run other commands like `install`, `remove`, `require`
@@ -289,8 +296,8 @@ php composer.phar global update
 ## search
 
 The search command allows you to search through the current project's package
-repositories. Usually this will be packagist. You simply pass it the
-terms you want to search for.
+repositories. Usually this will be packagist. You pass it the terms you want
+to search for.
 
 ```sh
 php composer.phar search monolog
@@ -414,6 +421,11 @@ This implies `--by-package --by-suggestion`, showing both lists.
 * **--by-suggestion:** Groups output by suggested package.
 * **--no-dev:** Excludes suggestions from `require-dev` packages.
 
+## fund
+
+Discover how to help fund the maintenance of your dependencies. This lists
+all funding links from the installed dependencies.
+
 ## depends (why)
 
 The `depends` command tells you which other packages depend on a certain
@@ -527,7 +539,7 @@ command. It will replace your `composer.phar` with the latest version.
 php composer.phar self-update
 ```
 
-If you would like to instead update to a specific release simply specify it:
+If you would like to instead update to a specific release specify it:
 
 ```sh
 php composer.phar self-update 1.0.0-alpha7
@@ -641,7 +653,7 @@ provide a version as third argument, otherwise the latest version is used.
 If the directory does not currently exist, it will be created during installation.
 
 ```sh
-php composer.phar create-project doctrine/orm path 2.2.*
+php composer.phar create-project doctrine/orm path "2.2.*"
 ```
 
 It is also possible to run the command without params in a directory with an
@@ -659,6 +671,7 @@ By default the command checks for the packages on packagist.org.
   to a `composer` repository, a path to a local `packages.json` file, or a
   JSON string which similar to what the [repositories](04-schema.md#repositories)
   key accepts.
+* **--add-repository:** Add the repository option to the composer.json.
 * **--dev:** Install packages listed in `require-dev`.
 * **--no-dev:** Disables installation of require-dev packages.
 * **--no-scripts:** Disables the execution of the scripts defined in the root
@@ -700,7 +713,7 @@ performance.
 * **--apcu:** Use APCu to cache found/not-found classes.
 * **--no-dev:** Disables autoload-dev rules.
 
-## clear-cache (clearcache)
+## clear-cache / clearcache / cc
 
 Deletes all content from Composer's cache directories.
 
@@ -796,58 +809,48 @@ COMPOSER=composer-other.json php composer.phar install
 
 The generated lock file will use the same name: `composer-other.lock` in this example.
 
-### COMPOSER_ROOT_VERSION
+### COMPOSER_ALLOW_SUPERUSER
 
-By setting this var you can specify the version of the root package, if it can
-not be guessed from VCS info and is not present in `composer.json`.
+If set to 1, this env disables the warning about running commands as root/super user.
+It also disables automatic clearing of sudo sessions, so you should really only set this
+if you use Composer as super user at all times like in docker containers.
 
-### COMPOSER_VENDOR_DIR
+### COMPOSER_ALLOW_XDEBUG
 
-By setting this var you can make Composer install the dependencies into a
-directory other than `vendor`.
+If set to 1, this env allows running Composer when the Xdebug extension is enabled, without restarting PHP without it.
+
+### COMPOSER_AUTH
+
+The `COMPOSER_AUTH` var allows you to set up authentication as an environment variable.
+The contents of the variable should be a JSON formatted object containing http-basic,
+github-oauth, bitbucket-oauth, ... objects as needed, and following the
+[spec from the config](06-config.md#gitlab-oauth).
 
 ### COMPOSER_BIN_DIR
 
 By setting this option you can change the `bin` ([Vendor Binaries](articles/vendor-binaries.md))
 directory to something other than `vendor/bin`.
 
-### http_proxy or HTTP_PROXY
+### COMPOSER_CACHE_DIR
 
-If you are using Composer from behind an HTTP proxy, you can use the standard
-`http_proxy` or `HTTP_PROXY` env vars. Simply set it to the URL of your proxy.
-Many operating systems already set this variable for you.
+The `COMPOSER_CACHE_DIR` var allows you to change the Composer cache directory,
+which is also configurable via the [`cache-dir`](06-config.md#cache-dir) option.
 
-Using `http_proxy` (lowercased) or even defining both might be preferable since
-some tools like git or curl will only use the lower-cased `http_proxy` version.
-Alternatively you can also define the git proxy using
-`git config --global http.proxy <proxy url>`.
+By default it points to `$COMPOSER_HOME/cache` on \*nix and macOS, and
+`C:\Users\<user>\AppData\Local\Composer` (or `%LOCALAPPDATA%/Composer`) on Windows.
 
-If you are using Composer in a non-CLI context (i.e. integration into a CMS or
-similar use case), and need to support proxies, please provide the `CGI_HTTP_PROXY`
-environment variable instead. See [httpoxy.org](https://httpoxy.org/) for further
-details.
+### COMPOSER_CAFILE
 
-### no_proxy or NO_PROXY
+By setting this environmental value, you can set a path to a certificate bundle
+file to be used during SSL/TLS peer verification.
 
-If you are behind a proxy and would like to disable it for certain domains, you
-can use the `no_proxy` or `NO_PROXY` env var. Simply set it to a comma separated list of
-domains the proxy should *not* be used for.
+### COMPOSER_DISABLE_XDEBUG_WARN
 
-The env var accepts domains, IP addresses, and IP address blocks in CIDR
-notation. You can restrict the filter to a particular port (e.g. `:80`). You
-can also set it to `*` to ignore the proxy for all HTTP requests.
+If set to 1, this env suppresses a warning when Composer is running with the Xdebug extension enabled.
 
-### HTTP_PROXY_REQUEST_FULLURI
+### COMPOSER_DISCARD_CHANGES
 
-If you use a proxy but it does not support the request_fulluri flag, then you
-should set this env var to `false` or `0` to prevent Composer from setting the
-request_fulluri option.
-
-### HTTPS_PROXY_REQUEST_FULLURI
-
-If you use a proxy but it does not support the request_fulluri flag for HTTPS
-requests, then you should set this env var to `false` or `0` to prevent Composer
-from setting the request_fulluri option.
+This env var controls the [`discard-changes`](06-config.md#discard-changes) config option.
 
 ### COMPOSER_HOME
 
@@ -873,45 +876,10 @@ This file allows you to set [repositories](05-repositories.md) and
 In case global configuration matches _local_ configuration, the _local_
 configuration in the project's `composer.json` always wins.
 
-### COMPOSER_CACHE_DIR
+### COMPOSER_HTACCESS_PROTECT
 
-The `COMPOSER_CACHE_DIR` var allows you to change the Composer cache directory,
-which is also configurable via the [`cache-dir`](06-config.md#cache-dir) option.
-
-By default it points to `$COMPOSER_HOME/cache` on \*nix and macOS, and
-`C:\Users\<user>\AppData\Local\Composer` (or `%LOCALAPPDATA%/Composer`) on Windows.
-
-### COMPOSER_PROCESS_TIMEOUT
-
-This env var controls the time Composer waits for commands (such as git
-commands) to finish executing. The default value is 300 seconds (5 minutes).
-
-### COMPOSER_CAFILE
-
-By setting this environmental value, you can set a path to a certificate bundle
-file to be used during SSL/TLS peer verification.
-
-### COMPOSER_AUTH
-
-The `COMPOSER_AUTH` var allows you to set up authentication as an environment variable.
-The contents of the variable should be a JSON formatted object containing http-basic,
-github-oauth, bitbucket-oauth, ... objects as needed, and following the
-[spec from the config](06-config.md#gitlab-oauth).
-
-### COMPOSER_DISCARD_CHANGES
-
-This env var controls the [`discard-changes`](06-config.md#discard-changes) config option.
-
-### COMPOSER_NO_INTERACTION
-
-If set to 1, this env var will make Composer behave as if you passed the
-`--no-interaction` flag to every command. This can be set on build boxes/CI.
-
-### COMPOSER_ALLOW_SUPERUSER
-
-If set to 1, this env disables the warning about running commands as root/super user.
-It also disables automatic clearing of sudo sessions, so you should really only set this
-if you use Composer as super user at all times like in docker containers.
+Defaults to `1`. If set to `0`, Composer will not create `.htaccess` files in the
+composer home, cache, and data directories.
 
 ### COMPOSER_MEMORY_LIMIT
 
@@ -923,9 +891,66 @@ If set to 1, this env changes the default path repository strategy to `mirror` i
 of `symlink`. As it is the default strategy being set it can still be overwritten by
 repository options.
 
-### COMPOSER_HTACCESS_PROTECT
+### COMPOSER_NO_INTERACTION
 
-Defaults to `1`. If set to `0`, Composer will not create `.htaccess` files in the
-composer home, cache, and data directories.
+If set to 1, this env var will make Composer behave as if you passed the
+`--no-interaction` flag to every command. This can be set on build boxes/CI.
+
+### COMPOSER_PROCESS_TIMEOUT
+
+This env var controls the time Composer waits for commands (such as git
+commands) to finish executing. The default value is 300 seconds (5 minutes).
+
+### COMPOSER_ROOT_VERSION
+
+By setting this var you can specify the version of the root package, if it can
+not be guessed from VCS info and is not present in `composer.json`.
+
+### COMPOSER_VENDOR_DIR
+
+By setting this var you can make Composer install the dependencies into a
+directory other than `vendor`.
+
+### http_proxy or HTTP_PROXY
+
+If you are using Composer from behind an HTTP proxy, you can use the standard
+`http_proxy` or `HTTP_PROXY` env vars. Set it to the URL of your proxy.
+Many operating systems already set this variable for you.
+
+Using `http_proxy` (lowercased) or even defining both might be preferable since
+some tools like git or curl will only use the lower-cased `http_proxy` version.
+Alternatively you can also define the git proxy using
+`git config --global http.proxy <proxy url>`.
+
+If you are using Composer in a non-CLI context (i.e. integration into a CMS or
+similar use case), and need to support proxies, please provide the `CGI_HTTP_PROXY`
+environment variable instead. See [httpoxy.org](https://httpoxy.org/) for further
+details.
+
+### HTTP_PROXY_REQUEST_FULLURI
+
+If you use a proxy but it does not support the request_fulluri flag, then you
+should set this env var to `false` or `0` to prevent Composer from setting the
+request_fulluri option.
+
+### HTTPS_PROXY_REQUEST_FULLURI
+
+If you use a proxy but it does not support the request_fulluri flag for HTTPS
+requests, then you should set this env var to `false` or `0` to prevent Composer
+from setting the request_fulluri option.
+
+### COMPOSER_SELF_UPDATE_TARGET
+
+If set, makes the self-update command write the new Composer phar file into that path instead of overwriting itself. Useful for updating Composer on read-only filesystem.
+
+### no_proxy or NO_PROXY
+
+If you are behind a proxy and would like to disable it for certain domains, you
+can use the `no_proxy` or `NO_PROXY` env var. Set it to a comma separated list of
+domains the proxy should *not* be used for.
+
+The env var accepts domains, IP addresses, and IP address blocks in CIDR
+notation. You can restrict the filter to a particular port (e.g. `:80`). You
+can also set it to `*` to ignore the proxy for all HTTP requests.
 
 &larr; [Libraries](02-libraries.md)  |  [Schema](04-schema.md) &rarr;

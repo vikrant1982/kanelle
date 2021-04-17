@@ -50,6 +50,14 @@ class Label implements Entity
     }
 
     /**
+     * @param $id
+     * @return Label
+     */
+    public static function id($id)
+    {
+        return new Label(LabelType::ID, $id);
+    }
+    /**
      * @param $featureName
      * @return Label
      */
@@ -75,7 +83,16 @@ class Label implements Entity
     {
         return new Label(LabelType::SEVERITY, $severityLevel);
     }
-    
+
+    /**
+     * @param $testType
+     * @return Label
+     */
+    public static function testType($testType)
+    {
+        return new Label(LabelType::TEST_TYPE, $testType);
+    }
+
     /**
      * @param $issueKey
      * @return Label
@@ -94,5 +111,15 @@ class Label implements Entity
     {
         return new Label(LabelType::TEST_ID, $testCaseId);
     }
-    
+
+    /**
+     * @param $name
+     * @param $value
+     *
+     * @return Label
+     */
+    public static function label($name, $value)
+    {
+        return new Label($name, $value);
+    }
 }

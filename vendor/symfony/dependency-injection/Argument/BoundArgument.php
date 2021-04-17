@@ -16,9 +16,9 @@ namespace Symfony\Component\DependencyInjection\Argument;
  */
 final class BoundArgument implements ArgumentInterface
 {
-    const SERVICE_BINDING = 0;
-    const DEFAULTS_BINDING = 1;
-    const INSTANCEOF_BINDING = 2;
+    public const SERVICE_BINDING = 0;
+    public const DEFAULTS_BINDING = 1;
+    public const INSTANCEOF_BINDING = 2;
 
     private static $sequence = 0;
 
@@ -43,7 +43,7 @@ final class BoundArgument implements ArgumentInterface
     /**
      * {@inheritdoc}
      */
-    public function getValues()
+    public function getValues(): array
     {
         return [$this->value, $this->identifier, $this->used, $this->type, $this->file];
     }
@@ -54,9 +54,9 @@ final class BoundArgument implements ArgumentInterface
     public function setValues(array $values)
     {
         if (5 === \count($values)) {
-            list($this->value, $this->identifier, $this->used, $this->type, $this->file) = $values;
+            [$this->value, $this->identifier, $this->used, $this->type, $this->file] = $values;
         } else {
-            list($this->value, $this->identifier, $this->used) = $values;
+            [$this->value, $this->identifier, $this->used] = $values;
         }
     }
 }

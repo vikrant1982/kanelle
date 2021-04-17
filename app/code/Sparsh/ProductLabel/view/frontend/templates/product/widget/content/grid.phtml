@@ -8,8 +8,8 @@
     $items = $block->getProductCollection()->getItems();
 
     $showWishlist = true;
-    $showCompare = true;
-    $showCart = true;
+    $showCompare = false;
+    $showCart = false;
     $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
     $description = false;
     //get product label helper
@@ -61,10 +61,12 @@
                                 }
                             }
                             ?>
+			   <div class="image-class">
                             <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                                class="product-item-photo">
                                 <?= $block->getImage($_item, $image)->toHtml() ?>
                             </a>
+			  </div>
                             <div class="product-item-details">
                                 <strong class="product-item-name">
                                     <a title="<?= $block->escapeHtml($_item->getName()) ?>"

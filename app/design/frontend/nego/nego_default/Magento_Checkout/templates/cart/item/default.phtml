@@ -64,7 +64,7 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                 <?php if ($addInfoBlock): ?>
                     <?= $addInfoBlock->setItem($_item)->toHtml() ?>
                 <?php endif;?>
-                <input type="text" name="message">
+                <textarea placeholder="Post your comment..."></textarea>
             </div>
         </td>
 

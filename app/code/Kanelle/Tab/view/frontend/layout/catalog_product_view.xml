@@ -4,21 +4,21 @@
 <referenceBlock name="product.info.details">
 		<block class="Magento\Catalog\Block\Product\View" name="tab.delivery" template="Kanelle_Tab::delivery.phtml" group="detailed_info">
 			<arguments>
-				<argument translate="true" name="title" xsi:type="string">Delivery</argument>
+				<argument translate="true" name="title" xsi:type="string">Shipping and returns</argument>
 				<argument name="sort_order" xsi:type="string">40</argument>
 			</arguments>
 		</block>
-		<block class="Magento\Catalog\Block\Product\View" name="tab.return" template="Kanelle_Tab::return.phtml" group="detailed_info">
+		<!-- <block class="Magento\Catalog\Block\Product\View" name="tab.return" template="Kanelle_Tab::return.phtml" group="detailed_info">
 			<arguments>
 				<argument translate="true" name="title" xsi:type="string">Return</argument>
 				<argument name="sort_order" xsi:type="string">50</argument>
 			</arguments>
-		</block>
+		</block> -->
 	
 </referenceBlock>
 
 <referenceContainer name="product.info.social">
-	<block type="core/template"  name="custom_product_info" template="Kanelle_Tab::sizechart.phtml"/>
+	<block class="Magento\Framework\View\Element\Template"  name="custom_product_info" template="Kanelle_Tab::sizechart.phtml"/>
 </referenceContainer>
 </body>
 </page>

@@ -137,24 +137,21 @@ class ResourceCheckerConfigCache implements ConfigCacheInterface
             }
         }
 
-        if (\function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN)) {
+        if (\function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), \FILTER_VALIDATE_BOOLEAN)) {
             @opcache_invalidate($this->file, true);
         }
     }
 
     /**
      * Gets the meta file path.
-     *
-     * @return string The meta file path
      */
-    private function getMetaFile()
+    private function getMetaFile(): string
     {
         return $this->file.'.meta';
     }
 
-    private function safelyUnserialize($file)
+    private function safelyUnserialize(string $file)
     {
-        $e = null;
         $meta = false;
         $content = file_get_contents($file);
         $signalingException = new \UnexpectedValueException();

@@ -845,7 +845,8 @@ class View extends Template
 			$extenal_link = "";
 		}
 
-		$html = '<div data-link="'.$extenal_link.'" class="'.$divClassName.' '.$firstClassName.' '.$align_right.' '.$_active.' '.$item['custom_class'].'">' ;
+		$html = '<div data-link="'.$extenal_link.'" class="'.$divClassName.' '.$firstClassName.' '.$align_right.' '.$_active.' '.$item['custom_class'].'" >' ;
+		$html .= ($this->isDrop($item)) ? '<div class="menu-item">':'';
 		$link = ($hasLinkType)?$this->getLinkOfType($item):'#';
 		$title = ($item['show_title']==self::STATUS_ENABLED)?'<span class="'.$prefix.'title_lv-'.$item['depth'].'">'.$item['title'].'</span>':'';
 		$icon_title = $title;//($this->hasIcon($item))?'<span class="icon_items_sub"><img src='.$this->filterImage($item).' alt="icon items sub" /></span><span class="'.$prefix.'icon">'.$title.'</span>':$title;
@@ -914,25 +915,27 @@ class View extends Template
 						}
 					}else{
 						if(!$hasLinkType){
-							$html.= $item['depth'] > 1 ? '<div class="'.$prefix.'content">'.$contentType.'</div>' : '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
+				$imageicon = ($this->filterImage($item)) ? "<div><img src='<?php echo $this->filterImage($itemStartLv); ?>' alt='icon items'></div>":"";
+				$html.= $item['depth'] > 1 ? '<div class="'.$prefix.'content">'.$contentType.'</div>' :'';
+				//$html.= '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
 						}
 					}
 				}else{
 					if(!$hasLinkType){
-						$html.=  $item['depth'] > 1 ? '<div class="'.$prefix.'content">'.$contentType.'</div>' : '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
+						$html.=  $item['depth'] > 1 ? '</div>' : '';
 					}
 				}
-				$html .= $item['depth'] > 1 ? '</div>' : '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
+				$html .= $item['depth'] > 1 ? '</div>' : '';
 
 			}
 
-			$html.= $item['depth'] > 1 ? '</div>' : '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
+			$html.= $item['depth'] > 1 ? '</div>' : '';
+			//$html.= '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
 			
 		}
 		
 		$html .= '</div>' ;
-
-		
+		//$html.= '<div><img src='.$this->filterImage($item).' alt="icon items sub" /></div>';
 		return $html;
 	}
 

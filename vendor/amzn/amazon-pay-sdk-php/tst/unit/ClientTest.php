@@ -362,7 +362,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'success_url'               => 'SuccessUrl',
             'failure_url'               => 'FailureUrl',
             'authorization_amount'      => 'AuthorizationAmount.Amount',
-            'currency_code'             => 'AuthorizationAmount.CurrencyCode'
+            'currency_code'             => 'AuthorizationAmount.CurrencyCode',
+            'expect_immediate_authorization' => 'ExpectImmediateAuthorization'
         );
 
         $action = 'ConfirmOrderReference';
@@ -389,7 +390,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'mws_auth_token'            => 'MWSAuthToken',
             'success_url'               => 'SuccessUrl',
             'failure_url'               => 'FailureUrl',
-            'authorization_amount'      => 'AuthorizationAmount.Amount'
+            'authorization_amount'      => 'AuthorizationAmount.Amount',
+            'expect_immediate_authorization' => 'ExpectImmediateAuthorization'
         );
 
         $action = 'ConfirmOrderReference';
@@ -415,7 +417,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'amazon_order_reference_id' => 'AmazonOrderReferenceId',
             'mws_auth_token'            => 'MWSAuthToken',
             'success_url'               => 'SuccessUrl',
-            'failure_url'               => 'FailureUrl'
+            'failure_url'               => 'FailureUrl',
+            'expect_immediate_authorization' => 'ExpectImmediateAuthorization'
         );
 
         $action = 'ConfirmOrderReference';
@@ -455,6 +458,33 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $apiParametersString = $client->getParameters();
 
         $this->assertEquals($apiParametersString, $expectedStringParams);
+    }
+
+    /*
+    * Test to validate ConfirmOrderReference API with ExpectImmediateAuthorization optional value as null
+    * It is expected to accept only Boolean value (i.e true or false)
+    */
+    public function testConfirmOrderReferenceWithExpectImmediateAuthorizationValueAsNull() {
+        $client = new Client($this->configParams);
+        $fieldMappings = array(
+            'merchant_id'               => 'SellerId',
+            'amazon_order_reference_id' => 'AmazonOrderReferenceId',
+            'mws_auth_token'            => 'MWSAuthToken',
+            'success_url'               => 'SuccessUrl',
+            'failure_url'               => 'FailureUrl',
+            'authorization_amount'      => 'AuthorizationAmount.Amount',
+            'expect_immediate_authorization' => 'ExpectImmediateAuthorization'
+        );
+        $action = 'ConfirmOrderReference';
+        $parameters = $this->setParametersAndPost($fieldMappings, $action);
+        $apiCallParams = $parameters['apiCallParams'];
+        $apiCallParams['expect_immediate_authorization'] = null;
+        try{
+            $response = $client->confirmOrderReference($apiCallParams);
+        }
+        catch (\Exception $expected) {
+            $this->assertRegExp('/should be a boolean value/i', strval($expected));
+        }
     }
 
     public function testCancelOrderReference()
@@ -798,7 +828,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($apiParametersString, $expectedStringParams);
     }
 
-    public function testSetBillingAgreementDetails()
+    public function testSetBillingAgreementDetailsWithoutSCA()
     {
         $client = new Client($this->configParams);
         $fieldMappings = array(
@@ -827,7 +857,71 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($apiParametersString, $expectedStringParams);
     }
 
-    public function testConfirmBillingAgreement()
+    public function testSetBillingAgreementDetailsWithSCA()
+    {
+        $client = new Client($this->configParams);
+        $fieldMappings = array(
+            'merchant_id'                 => 'SellerId',
+            'amazon_billing_agreement_id' => 'AmazonBillingAgreementId',
+            'platform_id'                 => 'BillingAgreementAttributes.PlatformId',
+            'seller_note'                 => 'BillingAgreementAttributes.SellerNote',
+            'seller_billing_agreement_id' => 'BillingAgreementAttributes.SellerBillingAgreementAttributes.SellerBillingAgreementId',
+            'custom_information'          => 'BillingAgreementAttributes.SellerBillingAgreementAttributes.CustomInformation',
+            'store_name'                  => 'BillingAgreementAttributes.SellerBillingAgreementAttributes.StoreName',
+            'billing_agreement_type'      => 'BillingAgreementAttributes.BillingAgreementType',
+            'subscription_amount'         => 'BillingAgreementAttributes.SubscriptionAmount.Amount',
+            'currency_code'               => 'BillingAgreementAttributes.SubscriptionAmount.CurrencyCode',
+            'mws_auth_token'              => 'MWSAuthToken'
+        );
+
+        $action = 'SetBillingAgreementDetails';
+
+        $parameters = $this->setParametersAndPost($fieldMappings, $action);
+        $expectedParameters = $parameters['expectedParameters'];
+        $apiCallParams = $parameters['apiCallParams'];
+
+        $expectedStringParams = $this->callPrivateMethod($client, 'calculateSignatureAndParametersToString', $expectedParameters);
+
+        $response = $client->setBillingAgreementDetails($apiCallParams);
+
+        $apiParametersString = $client->getParameters();
+
+        $this->assertEquals($apiParametersString, $expectedStringParams);
+    }
+
+    public function testSetBillingAgreementDetailsWithSCAExceptCurrencyCode()
+    {
+        $client = new Client($this->configParams);
+        $fieldMappings = array(
+            'merchant_id'                 => 'SellerId',
+            'amazon_billing_agreement_id' => 'AmazonBillingAgreementId',
+            'platform_id'                 => 'BillingAgreementAttributes.PlatformId',
+            'seller_note'                 => 'BillingAgreementAttributes.SellerNote',
+            'seller_billing_agreement_id' => 'BillingAgreementAttributes.SellerBillingAgreementAttributes.SellerBillingAgreementId',
+            'custom_information'          => 'BillingAgreementAttributes.SellerBillingAgreementAttributes.CustomInformation',
+            'store_name'                  => 'BillingAgreementAttributes.SellerBillingAgreementAttributes.StoreName',
+            'billing_agreement_type'      => 'BillingAgreementAttributes.BillingAgreementType',
+            'subscription_amount'         => 'BillingAgreementAttributes.SubscriptionAmount.Amount',
+            'mws_auth_token'              => 'MWSAuthToken'
+        );
+
+        $action = 'SetBillingAgreementDetails';
+
+        $parameters = $this->setParametersAndPost($fieldMappings, $action);
+        $expectedParameters = $parameters['expectedParameters'];
+        $apiCallParams = $parameters['apiCallParams'];
+
+        $expectedParameters['BillingAgreementAttributes.SubscriptionAmount.CurrencyCode'] = 'USD'; # default from client
+        $expectedStringParams = $this->callPrivateMethod($client, 'calculateSignatureAndParametersToString', $expectedParameters);
+
+        $response = $client->setBillingAgreementDetails($apiCallParams);
+
+        $apiParametersString = $client->getParameters();
+
+        $this->assertEquals($apiParametersString, $expectedStringParams);
+    }
+
+    public function testConfirmBillingAgreementWithoutSCA()
     {
         $client = new Client($this->configParams);
         $fieldMappings = array(
@@ -850,6 +944,33 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($apiParametersString, $expectedStringParams);
     }
+
+    public function testConfirmBillingAgreementWithSCA()
+    {
+        $client = new Client($this->configParams);
+        $fieldMappings = array(
+            'merchant_id'                 => 'SellerId',
+            'amazon_billing_agreement_id' => 'AmazonBillingAgreementId',
+            'success_url'                 => 'SuccessUrl',
+            'failure_url'                 => 'FailureUrl',
+            'mws_auth_token'              => 'MWSAuthToken'
+        );
+
+        $action = 'ConfirmBillingAgreement';
+
+        $parameters = $this->setParametersAndPost($fieldMappings, $action);
+        $expectedParameters = $parameters['expectedParameters'];
+        $apiCallParams = $parameters['apiCallParams'];
+
+        $expectedStringParams = $this->callPrivateMethod($client, 'calculateSignatureAndParametersToString', $expectedParameters);
+
+        $response = $client->confirmBillingAgreement($apiCallParams);
+
+        $apiParametersString = $client->getParameters();
+
+        $this->assertEquals($apiParametersString, $expectedStringParams);
+    }
+
 
     public function testValidateBillingAgreement()
     {
@@ -924,7 +1045,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $action = 'CloseBillingAgreement';
 
-
         $parameters = $this->setParametersAndPost($fieldMappings, $action);
         $expectedParameters = $parameters['expectedParameters'];
         $apiCallParams = $parameters['apiCallParams'];
@@ -932,6 +1052,58 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $expectedStringParams = $this->callPrivateMethod($client, 'calculateSignatureAndParametersToString', $expectedParameters);
 
         $response = $client->closeBillingAgreement($apiCallParams);
+
+        $apiParametersString = $client->getParameters();
+
+        $this->assertEquals($apiParametersString, $expectedStringParams);
+    }
+
+    public function testGetMerchantNotificationConfiguration()
+    {
+        $client = new Client($this->configParams);
+        $fieldMappings = array(
+            'merchant_id'                 => 'SellerId',
+            'mws_auth_token'              => 'MWSAuthToken'
+        );
+
+        $action = 'GetMerchantNotificationConfiguration';
+
+        $parameters = $this->setParametersAndPost($fieldMappings, $action);
+        $expectedParameters = $parameters['expectedParameters'];
+        $apiCallParams = $parameters['apiCallParams'];
+
+        $expectedStringParams = $this->callPrivateMethod($client, 'calculateSignatureAndParametersToString', $expectedParameters);
+
+        $response = $client->getMerchantNotificationConfiguration($apiCallParams);
+
+        $apiParametersString = $client->getParameters();
+
+        $this->assertEquals($apiParametersString, $expectedStringParams);
+    }
+
+    public function testSetMerchantNotificationConfiguration()
+    {
+        $client = new Client($this->configParams);
+        $fieldMappings = array(
+            'merchant_id'                     => 'SellerId',
+            'notification_configuration_list' => array(),
+            'mws_auth_token'                  => 'MWSAuthToken'
+        );
+
+        $action = 'SetMerchantNotificationConfiguration';
+
+        $parameters = $this->setParametersAndPost($fieldMappings, $action);
+        $expectedParameters = $parameters['expectedParameters'];
+        $expectedParameters['NotificationConfigurationList.NotificationConfiguration.1.NotificationUrl'] = 'https://dev.null/one';
+        $expectedParameters['NotificationConfigurationList.NotificationConfiguration.2.NotificationUrl'] = 'https://dev.null/two';
+        $expectedParameters['NotificationConfigurationList.NotificationConfiguration.1.EventTypes.EventTypeList.1'] = 'ORDER_REFERENCE';
+        $expectedParameters['NotificationConfigurationList.NotificationConfiguration.1.EventTypes.EventTypeList.2'] = 'PAYMENT_AUTHORIZE';
+        $expectedParameters['NotificationConfigurationList.NotificationConfiguration.2.EventTypes.EventTypeList.1'] = 'ALL';
+        $apiCallParams = $parameters['apiCallParams'];
+
+        $expectedStringParams = $this->callPrivateMethod($client, 'calculateSignatureAndParametersToString', $expectedParameters);
+
+        $response = $client->setMerchantNotificationConfiguration($apiCallParams);
 
         $apiParametersString = $client->getParameters();
 
@@ -1085,13 +1257,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $expectedParameters['Action'] = $action;
 
         foreach ($fieldMappings as $parm => $value) {
-            if ($parm === 'capture_now' || $parm === 'confirm_now' || $parm === 'inherit_shipping_address' || $parm === 'request_payment_authorization') {
+            if ($parm === 'capture_now' || $parm === 'confirm_now' || $parm === 'inherit_shipping_address' || $parm === 'request_payment_authorization' || $parm === 'expect_immediate_authorization') {
                 $expectedParameters[$value] = true;
                 $apiCallParams[$parm] = true;
             } elseif ($parm === 'order_item_categories') {
                 $apiCallParams[$parm] = array('Antiques', 'Electronics');
             } elseif ($parm === 'order_status_list') {
                 $apiCallParams[$parm] = array('Open', 'Closed');
+            } elseif ($parm === 'notification_configuration_list') {
+                $notificationConfiguration['https://dev.null/one'] = array('ORDER_REFERENCE', 'PAYMENT_AUTHORIZE');
+                $notificationConfiguration['https://dev.null/two'] = array('ALL');
+                $apiCallParams[$parm] = $notificationConfiguration;
             } elseif (!isset($expectedParameters[$value])) {
                 $unique_id = uniqid();
                 $expectedParameters[$value] = $unique_id;

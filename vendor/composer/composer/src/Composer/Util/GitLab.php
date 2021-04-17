@@ -53,7 +53,10 @@ class GitLab
      */
     public function authorizeOAuth($originUrl)
     {
-        if (!in_array($originUrl, $this->config->get('gitlab-domains'), true)) {
+        // before composer 1.9, origin URLs had no port number in them
+        $bcOriginUrl = preg_replace('{:\d+}', '', $originUrl);
+
+        if (!in_array($originUrl, $this->config->get('gitlab-domains'), true) && !in_array($bcOriginUrl, $this->config->get('gitlab-domains'), true)) {
             return false;
         }
 
@@ -69,6 +72,12 @@ class GitLab
 
         if (isset($authTokens[$originUrl])) {
             $this->io->setAuthentication($originUrl, $authTokens[$originUrl], 'private-token');
+
+            return true;
+        }
+
+        if (isset($authTokens[$bcOriginUrl])) {
+            $this->io->setAuthentication($originUrl, $authTokens[$bcOriginUrl], 'private-token');
 
             return true;
         }
@@ -95,7 +104,7 @@ class GitLab
         }
 
         $this->io->writeError(sprintf('A token will be created and stored in "%s", your password will never be stored', $this->config->getAuthConfigSource()->getName()));
-        $this->io->writeError('To revoke access to this token you can visit '.$originUrl.'/profile/applications');
+        $this->io->writeError('To revoke access to this token you can visit '.$scheme.'://'.$originUrl.'/profile/applications');
 
         $attemptCounter = 0;
 
@@ -107,12 +116,17 @@ class GitLab
                 // 403 is max login attempts exceeded
                 if (in_array($e->getCode(), array(403, 401))) {
                     if (401 === $e->getCode()) {
-                        $this->io->writeError('Bad credentials.');
+                        $response = json_decode($e->getResponse(), true);
+                        if (isset($response['error']) && $response['error'] === 'invalid_grant') {
+                            $this->io->writeError('Bad credentials. If you have two factor authentication enabled you will have to manually create a personal access token');
+                        } else {
+                            $this->io->writeError('Bad credentials.');
+                        }
                     } else {
                         $this->io->writeError('Maximum number of login attempts exceeded. Please try again later.');
                     }
 
-                    $this->io->writeError('You can also manually create a personal token at '.$scheme.'://'.$originUrl.'/profile/personal_access_tokens');
+                    $this->io->writeError('You can also manually create a personal access token enabling the "read_api" scope at '.$scheme.'://'.$originUrl.'/profile/personal_access_tokens');
                     $this->io->writeError('Add it using "composer config --global --auth gitlab-token.'.$originUrl.' <token>"');
 
                     continue;

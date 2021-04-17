@@ -23,8 +23,7 @@ class Processor
     /**
      * Processes an array of configurations.
      *
-     * @param NodeInterface $configTree The node tree describing the configuration
-     * @param array         $configs    An array of configuration items to process
+     * @param array $configs An array of configuration items to process
      *
      * @return array The processed configuration
      */
@@ -42,8 +41,7 @@ class Processor
     /**
      * Processes an array of configurations.
      *
-     * @param ConfigurationInterface $configuration The configuration class
-     * @param array                  $configs       An array of configuration items to process
+     * @param array $configs An array of configuration items to process
      *
      * @return array The processed configuration
      */
@@ -88,10 +86,10 @@ class Processor
         if (isset($config[$key])) {
             if (\is_string($config[$key]) || !\is_int(key($config[$key]))) {
                 // only one
-                return  [$config[$key]];
+                return [$config[$key]];
             }
 
-            return  $config[$key];
+            return $config[$key];
         }
 
         return [];

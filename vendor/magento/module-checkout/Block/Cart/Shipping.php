@@ -96,6 +96,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getSerializedCheckoutConfig()
     {
-        return json_encode($this->getCheckoutConfig(), JSON_HEX_TAG);
+       // return json_encode($this->getCheckoutConfig(), JSON_HEX_TAG);
+	return json_encode($this->getCheckoutConfig(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
     }
 }

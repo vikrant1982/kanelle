@@ -49,6 +49,18 @@ class PathDownloader extends FileDownloader implements VcsCapableDownloaderInter
             ));
         }
 
+        if (realpath($path) === $realUrl) {
+            if ($output) {
+                $this->io->writeError(sprintf(
+                    '  - Installing <info>%s</info> (<comment>%s</comment>): Source already present',
+                    $package->getName(),
+                    $package->getFullPrettyVersion()
+                ));
+            }
+
+            return;
+        }
+
         if (strpos(realpath($path) . DIRECTORY_SEPARATOR, $realUrl . DIRECTORY_SEPARATOR) === 0) {
             // IMPORTANT NOTICE: If you wish to change this, don't. You are wasting your time and ours.
             //
@@ -63,7 +75,7 @@ class PathDownloader extends FileDownloader implements VcsCapableDownloaderInter
         }
 
         // Get the transport options with default values
-        $transportOptions = $package->getTransportOptions() + array('symlink' => null);
+        $transportOptions = $package->getTransportOptions() + array('symlink' => null, 'relative' => true);
 
         // When symlink transport option is null, both symlink and mirror are allowed
         $currentStrategy = self::STRATEGY_SYMLINK;
@@ -114,7 +126,11 @@ class PathDownloader extends FileDownloader implements VcsCapableDownloaderInter
                     $shortestPath = $this->filesystem->findShortestPath($absolutePath, $realUrl);
                     $path = rtrim($path, "/");
                     $this->io->writeError(sprintf('Symlinking from %s', $url), false);
-                    $fileSystem->symlink($shortestPath, $path);
+                    if ($transportOptions['relative']) {
+                        $fileSystem->symlink($shortestPath, $path);
+                    } else {
+                        $fileSystem->symlink($realUrl, $path);
+                    }
                 }
             } catch (IOException $e) {
                 if (in_array(self::STRATEGY_MIRROR, $allowedStrategies)) {
@@ -146,6 +162,16 @@ class PathDownloader extends FileDownloader implements VcsCapableDownloaderInter
      */
     public function remove(PackageInterface $package, $path, $output = true)
     {
+        $realUrl = realpath($package->getDistUrl());
+
+        if (realpath($path) === $realUrl) {
+            if ($output) {
+                $this->io->writeError("  - Removing <info>" . $package->getName() . "</info> (<comment>" . $package->getFullPrettyVersion() . "</comment>), source is still present in $path");
+            }
+
+            return;
+        }
+
         /**
          * For junctions don't blindly rely on Filesystem::removeDirectory as it may be overzealous. If a process
          * inadvertently locks the file the removal will fail, but it would fall back to recursive delete which

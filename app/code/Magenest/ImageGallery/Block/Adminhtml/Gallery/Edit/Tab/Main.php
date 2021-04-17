@@ -133,15 +133,33 @@ class Main extends Generic implements TabInterface
         );
 
 
+        $fieldset->addType('required_image', 'Magenest\ImageGallery\Block\Adminhtml\Image\Helper\Required');
+
         $fieldset->addField(
-            'image',
-            'image',
-            array(
-                'name' => 'image',
+            'profile',
+            'required_image',
+            [
+                'name' => 'profile',
                 'label' => __('Hero Image'),
-                'title' => __('Image')
-            )
-        );
+                'title' => __('Hero Image'),
+                'note' => __('Allow extension : gif,jpeg,jpg,png'),
+                'required' => true,
+                'enctype' => 'multipart/form-data'
+            ]
+        )->setAfterElementHtml('
+            <script>
+                require(["jquery"], function($){
+                    $(document).ready(function () {
+                        if($("#page_image_id").attr("value")){
+                            $("#page_image").removeClass("required-file");
+                        }else{
+                            $("#page_image").addClass("required-file");
+                        }
+                        $("#page_image").addClass("validate-filesize");
+                    $( "#page_image" ).attr( "accept", "image/gif,image/jpeg,image/jpg,image/png" );
+                });
+            });
+            </script>');;
 
 
 

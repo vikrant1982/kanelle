@@ -1,6 +1,40 @@
 # Changelog
 
-### 1.4.7 - 1.4.8 2/19/2019
+### 1.4.13 - 10/10/2020
+
+- Allow symfony/finder ^5 (#992)
+- Fix #981: PHP 7.3 compatibility fixes (#982)
+
+### 1.4.12 2/18/2020
+
+- Fixed #922: PHP 7.4 compatibility. (#923) (#928)
+- Test on PHP 7.4. Backport removal of Codeception to 1.x branch. (#925)
+- Copy branches documentation to the 1.x branch.
+- Fix incosistent white space formatting in code example. (#916)
+- Viktor Szépe extract() is not our friend (#903)
+- Viktor Szépe Old variables in ImageMinify (#904)
+- Viktor Szépe RuntimeException used realtively (#905)
+
+### 1.4.11 10/29/2019
+
+- Deprecate $this->io() and provide style injector instead. (#910)
+- Jordon Replogle Changed leafo to scssphp as leafo is archived (#900)
+- Patrick Kollitsch Add missing code formatting to sample code (#861)
+- Patrick Kollitsch Adding documentation as option to pull_request_template.md (#862)
+- RTLcoil Tiny formatting fix in README (#874)
+- Tal Ater Updated README with command for initiating a RoboFile (#875)
+
+### 1.4.10 7/29/2019
+
+* Allow default argument for confirm() questions by Dane Powell (#850)
+* Allow command classes to end in Commands or Command by Jelle Sebreghts (#878)
+* ImageMinify: Prevent undefined variable error by Dan (#852) (#854)
+* Add sample with changed file handling to Base/Watch documentation by Patrick Kollitsch (#847)
+* Clearer explanation of --load-from option by Jordan Koplowicz (#872)
+* Fix PHPDoc @param and @return type hints by Andor (#886)
+* Update PHPDoc mismatch by Filippo Tessarotto (#883)
+
+### 1.4.7 - 1.4.9 2/19/2019
 
 * Re-release 1.4.6 to remove artifacts inadvertantly added to tagged release.
 

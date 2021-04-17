@@ -649,7 +649,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic implements
 			], $fieldset
 		);
 
-		$textarea = $fieldset->addField(
+	/*	$textarea = $fieldset->addField(
 			'content',
 			'textarea',
 			[
@@ -682,7 +682,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic implements
 		$block_js = $this->_blockFactory->createBlock('\Magento\Backend\Block\Template')
 			->setTemplate('Magento_Catalog::catalog/wysiwyg/js.phtml');
 		$html .= $block_js->toHtml();
-		$textarea->setAfterElementHtml($html);
+		$textarea->setAfterElementHtml($html); */
 
 
 		$js_type = "";

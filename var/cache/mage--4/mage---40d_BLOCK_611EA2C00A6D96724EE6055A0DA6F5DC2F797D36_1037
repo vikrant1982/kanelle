@@ -1,0 +1,29 @@
+a:4:{s:4:"hash";s:0:"";s:5:"mtime";i:1618322060;s:6:"expire";i:1618325660;s:4:"tags";s:90:"40d_BLOCK_HTML,40d_CAT_P_1037,40d_CAT_P,40d_CAT_P_710,40d_CAT_P_711,40d_CAT_P_712,40d_MAGE";}
+
+            <div class="field configurable required">
+            <label class="label" for="attribute142">
+                <span>Size</span>
+            </label>
+            <div class="control">
+                <select name="super_attribute[142]"
+                        data-selector="super_attribute[142]"
+                        data-validate="{required:true}"
+                        id="attribute142"
+                        class="super-attribute-select">
+                    <option value="">Choose an Option...</option>
+                </select>
+            </div>
+        </div>
+        <script type="text/x-magento-init">
+        {
+            "#product_addtocart_form": {
+                "configurable": {
+                    "spConfig": {"attributes":{"142":{"id":"142","code":"size","label":"Size","options":[{"id":"29","label":"S","products":["710"]},{"id":"30","label":"M","products":["711"]},{"id":"31","label":"L","products":["712"]}],"position":"0"}},"template":"\u20b9<%- data.price %>","currencyFormat":"\u20b9%s","optionPrices":{"710":{"oldPrice":{"amount":7800},"basePrice":{"amount":7800},"finalPrice":{"amount":7800},"tierPrices":[],"msrpPrice":{"amount":null}},"711":{"oldPrice":{"amount":7800},"basePrice":{"amount":7800},"finalPrice":{"amount":7800},"tierPrices":[],"msrpPrice":{"amount":null}},"712":{"oldPrice":{"amount":7800},"basePrice":{"amount":7800},"finalPrice":{"amount":7800},"tierPrices":[],"msrpPrice":{"amount":null}}},"priceFormat":{"pattern":"\u20b9%s","precision":2,"requiredPrecision":2,"decimalSymbol":".","groupSymbol":",","groupLength":3,"integerRequired":false},"prices":{"oldPrice":{"amount":7800},"basePrice":{"amount":7800},"finalPrice":{"amount":7800}},"productId":"1037","chooseText":"Choose an Option...","images":[],"index":{"710":{"142":"29"},"711":{"142":"30"},"712":{"142":"31"}}},
+                    "gallerySwitchStrategy": "replace"
+                }
+            },
+            "*" : {
+                "Magento_ConfigurableProduct/js/catalog-add-to-cart": {}
+            }
+        }
+    </script>

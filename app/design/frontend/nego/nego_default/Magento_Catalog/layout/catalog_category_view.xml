@@ -15,7 +15,7 @@
 		   </block>
 		 </referenceContainer>
 		 
-		  <move element="category.view.container" destination="page.top" before="-"/>
+		  <move element="category.view.container" destination="content" before="-"/>
 		 <!-- <move element="breadcrumbs" destination="category.view.container" before="page.main.title"/> -->
 		 <move element="page.main.title" destination="content" before="-"/>
 		 <referenceContainer name="page.main.title" remove="1"/>

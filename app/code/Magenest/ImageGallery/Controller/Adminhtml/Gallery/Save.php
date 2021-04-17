@@ -15,6 +15,7 @@
 namespace Magenest\ImageGallery\Controller\Adminhtml\Gallery;
 
 use \Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 use Psr\Log\LoggerInterface;
@@ -95,7 +96,23 @@ class Save extends \Magento\Backend\App\Action
     public function execute()
     {
         $post = $this->getRequest()->getPostValue();
+	$file = $this->getRequest()->getFiles()['profile'];
         $resultRedirect = $this->resultRedirectFactory->create();
+       if (!isset($post['profile'])) {
+            $post['profile'] = [];
+        }
+        $image = $this->saveBackGround($file, $post['profile']);
+        if (is_array($post['profile']) && !empty($post['profile'])) {
+            $post['profile'] = $post['profile']['value'];
+        }
+        if ($image == 'deleted' || $image == '') {
+            $post['profile'] = null;
+        } else {
+            $post['profile'] = $image;
+        }
+        if (!$post) {
+            return $resultRedirect->setPath('imagegallery/image/');
+        }
         try {
             $postObject = new \Magento\Framework\DataObject();
             $postObject->setData($post);
@@ -144,7 +161,8 @@ class Save extends \Magento\Backend\App\Action
                                 break;
                         }
                     }
-                    $profileImage = $this->getRequest()->getFiles('hero_image');
+                    $profileImage = $this->getRequest()->getFiles('profile');
+		   echo $profileImage; die;
                     $fileName = ($profileImage && array_key_exists('name', $profileImage)) ? $profileImage['name'] : null;
                     if ($profileImage && $fileName) {
                         try {
@@ -185,9 +203,13 @@ class Save extends \Magento\Backend\App\Action
                     }
                 }
             }
+           if (strpos($post['profile'], ' ') !== false) {
+                $post['profile'] = str_replace(" ","_",$post['profile']);
+            }
 
             $array = [
                 'title' => isset($post['titleGallery']) ? $post['titleGallery'] : null,
+		'profile' => isset($post['profile']) ? $post['profile'] : null,
                 'status' => isset($post['status']) ? $post['status'] : null,
                 'description'=>isset($post['description2']) ? $post['description2'] : null ,
                 'width'=>isset($post['width']) ? $post['width'] : null ,
@@ -203,7 +225,8 @@ class Save extends \Magento\Backend\App\Action
             if (isset($post['gallery_id'])) {
                 $model->load($post['gallery_id']);
             }
-            $model->addData($array);
+           $model->addData($array);
+	   //$model->setData($post);
 
             $model->save();
 
@@ -255,6 +278,52 @@ class Save extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Backend\Model\Session')->setPageData($post);
             return $resultRedirect->setPath('imagegallery/gallery/edit', ['id' => $this->getRequest()->getParam('id')]);
         }
+    }
+
+
+    public function saveBackGround($value, $post)
+    {
+        if (!empty($value['name']) || !empty($post)) {
+            /** Deleted file */
+            if (!empty($post['delete']) && !empty($post['value'])) {
+                $path = $this->_filesystem->getDirectoryRead(
+                    DirectoryList::MEDIA
+                );
+                if ($path->isFile($post['value'])) {
+                    $this->_filesystem->getDirectoryWrite(
+                        DirectoryList::MEDIA
+                    )->delete($post['value']);
+                }
+                if (empty($value['name'])) {
+                    return 'deleted';
+                }
+            }
+            if (empty($value['name']) && !empty($post)) {
+                return $post['value'];
+            }
+            $path = $this->_filesystem->getDirectoryRead(
+                DirectoryList::MEDIA
+            )->getAbsolutePath(
+                'imagegallery/profile/'
+            );
+            try {
+                /** @var $uploader \Magento\MediaStorage\Model\File\Uploader */
+                $uploader = $this->_fileUploaderFactory->create(['fileId' => 'profile']);
+                $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
+                $uploader->setAllowRenameFiles(false);
+                $result = $uploader->save($path);
+                if (is_array($result) && !empty($result['name'])) {
+                    return 'imagegallery/profile/' . $result['name'];
+                }
+            } catch (\Exception $e) {
+                if ($e->getCode() != Uploader::TMP_NAME_EMPTY) {
+                    $this->_logger->critical($e);
+                }
+                $this->_logger->critical($e);
+            }
+        }
+
+        return '';
     }
 
     /**

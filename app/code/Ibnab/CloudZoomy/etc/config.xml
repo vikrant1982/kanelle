@@ -1,9 +1,0 @@
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-    <default>
-           <ibnab_cloud_config>
-                <general>
-                    <enabledisable>0</enabledisable>
-                </general>
-           </ibnab_cloud_config>
-    </default>
-</config>

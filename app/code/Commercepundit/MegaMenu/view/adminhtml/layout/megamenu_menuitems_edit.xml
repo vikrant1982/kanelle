@@ -9,9 +9,9 @@
 		<script src="Commercepundit_MegaMenu::js/jquery.nestable.js" defer="defer" async="" data-requiremodule="Commercepundit_MegaMenu/js/jquery.nestable"  data-requirecontext="jquery" /> -->
 	</head>
 	<body>
-		<referenceContainer name="js">
+		<!-- <referenceContainer name="js">
 			<block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js"/>
-		</referenceContainer>
+		</referenceContainer> -->
 		<referenceContainer name="js">
 			<block class="Magento\Backend\Block\Template" template="Magento_Widget::instance/js.phtml" name="widget_instance_js"/>
 		</referenceContainer>

@@ -26,12 +26,12 @@ trait BindTrait
      * injected in the matching parameters (of the constructor, of methods
      * called and of controller actions).
      *
-     * @param string $nameOrFqcn A parameter name with its "$" prefix, or a FQCN
+     * @param string $nameOrFqcn A parameter name with its "$" prefix, or an FQCN
      * @param mixed  $valueOrRef The value or reference to bind
      *
      * @return $this
      */
-    final public function bind($nameOrFqcn, $valueOrRef)
+    final public function bind(string $nameOrFqcn, $valueOrRef): self
     {
         $valueOrRef = static::processValue($valueOrRef, true);
         if (!preg_match('/^(?:(?:array|bool|float|int|string)[ \t]*+)?\$/', $nameOrFqcn) && !$valueOrRef instanceof Reference) {

@@ -1,0 +1,2 @@
+a:4:{s:4:"hash";s:0:"";s:5:"mtime";i:1617863805;s:6:"expire";i:9999999999;s:4:"tags";s:67:"40d_ADMINHTML_IMPORT_VALIDATE,40d_LAYOUT_GENERAL_CACHE_TAG,40d_MAGE";}
+{"pageLayout":"","layout":"<container name=\"root\">\n   <block class=\"Magento\\ImportExport\\Block\\Adminhtml\\Import\\Frame\\Result\" template=\"Magento_ImportExport::import\/frame\/result.phtml\" name=\"import.frame.result\" as=\"import_frame_result\"\/>\n<\/container>\n"}
